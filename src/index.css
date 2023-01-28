@@ -37,9 +37,7 @@ body {
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
-
   font-family: 'Styrene UI', var(--font-family-system);
-
   padding-inline: var(--gap-s);
 }
 
