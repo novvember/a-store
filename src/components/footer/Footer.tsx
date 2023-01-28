@@ -5,7 +5,7 @@ function Footer() {
   return (
     <footer className="footer">
       <Typography.Text tag="p" color="tertiary" weight="bold">
-        © ООО «Альфа Фьюче Пипл», 2022
+        © ООО «Альфа Фьюче Пипл», 2023
       </Typography.Text>
     </footer>
   );
