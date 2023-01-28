@@ -1,11 +1,15 @@
 import Footer from '../footer/Footer';
 import Header from '../header/Header';
 
-function Page() {
+type PageProps = {
+  children: React.ReactNode;
+};
+
+function Page({ children }: PageProps) {
   return (
     <>
       <Header />
-      <main>Main</main>
+      <main>{children}</main>
       <Footer />
     </>
   );
