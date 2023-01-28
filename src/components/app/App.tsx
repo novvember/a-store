@@ -1,8 +1,8 @@
-import './App.css';
+import Page from '../page/Page';
 
 function App() {
   return (
-    <div>App</div>
+    <Page />
   );
 }
 

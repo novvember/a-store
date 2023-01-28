@@ -1,5 +1,35 @@
 @import url(./vendor/normalize.css);
 
+@import '@alfalab/core-components/vars/gaps.css';
+
+@font-face {
+  font-family: 'Styrene UI';
+  src: url('https://alfabank.gcdn.co/media/fonts/styrene-ui/styrene-ui_regular.woff2')
+      format('woff2'),
+    url('https://alfabank.gcdn.co/media/fonts/styrene-ui/styrene-ui_regular.woff')
+      format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Styrene UI';
+  src: url('https://alfabank.gcdn.co/media/fonts/styrene-ui/styrene-ui_medium.woff2')
+      format('woff2'),
+    url('https://alfabank.gcdn.co/media/fonts/styrene-ui/styrene-ui_medium.woff')
+      format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Styrene UI';
+  src: url('https://alfabank.gcdn.co/media/fonts/styrene-ui/styrene-ui_bold.woff2')
+      format('woff2'),
+    url('https://alfabank.gcdn.co/media/fonts/styrene-ui/styrene-ui_bold.woff')
+      format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -7,4 +37,20 @@ body {
   -ms-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
+
+  font-family: 'Styrene UI', var(--font-family-system);
+
+  padding-inline: var(--gap-s);
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-inline: var(--gap-2xl);
+  }
+}
+
+@media (min-width: 1280px) {
+  body {
+    padding-inline: var(--gap-5xl);
+  }
 }
