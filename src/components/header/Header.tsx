@@ -2,11 +2,21 @@ import { Typography } from '@alfalab/core-components/typography';
 import { Button } from '@alfalab/core-components/button';
 import { Space } from '@alfalab/core-components/space';
 import { BurgerMIcon } from '@alfalab/icons-glyph/BurgerMIcon';
+import { Drawer } from '@alfalab/core-components/drawer';
 
 import './Header.css';
 import { Link } from 'react-router-dom';
+import { useCallback, useState } from 'react';
+import Menu from '../menu/Menu';
 
 function Header() {
+  const [isMenuOpened, setIsMenuOpened] = useState(false);
+
+  const handleMenuButtonClick = useCallback(
+    () => setIsMenuOpened((state) => !state),
+    [],
+  );
+
   return (
     <header className="header">
       <Link to="/">
@@ -20,7 +30,7 @@ function Header() {
         </Typography.TitleResponsive>
       </Link>
 
-      <Button view="ghost">
+      <Button view="ghost" onClick={handleMenuButtonClick}>
         <Space direction="horizontal" align="end" size="s">
           <BurgerMIcon />
           <Typography.TitleResponsive view="medium" tag="div">
@@ -28,6 +38,10 @@ function Header() {
           </Typography.TitleResponsive>
         </Space>
       </Button>
+
+      <Drawer open={isMenuOpened} onClose={handleMenuButtonClick}>
+        <Menu />
+      </Drawer>
     </header>
   );
 }
