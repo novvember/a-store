@@ -5,6 +5,12 @@ import formatPrice from '../../utils/formatPrice';
 
 import './Card.css';
 
+import { configure } from '@testing-library/dom';
+
+configure({
+  testIdAttribute: 'data-test-id',
+});
+
 type CardProps = {
   product: Product;
 };
@@ -14,11 +20,21 @@ function Card({ product }: CardProps) {
 
   return (
     <Space direction="vertical" key={id} className="card" size="s">
-      <img src={preview} alt={title} className="card__preview" />
-      <Typography.TitleResponsive view="xsmall" tag="h3">
+      <img
+        src={preview}
+        alt={title}
+        className="card__preview"
+        data-test-id="img"
+      />
+      <Typography.TitleResponsive view="xsmall" tag="h3" dataTestId="title">
         {title}
       </Typography.TitleResponsive>
-      <Typography.Text view="primary-large" weight="bold" color="accent">
+      <Typography.Text
+        view="primary-large"
+        weight="bold"
+        color="accent"
+        dataTestId="price"
+      >
         {formatPrice(price)}
       </Typography.Text>
     </Space>
