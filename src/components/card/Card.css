@@ -5,7 +5,7 @@
 .card__preview {
   width: 100%;
   aspect-ratio: 1;
-  object-fit: 100%;
+  object-fit: contain;
   background-color: #eee;
   transition: transform ease-in-out 0.2s;
 }

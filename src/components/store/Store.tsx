@@ -34,7 +34,11 @@ function Store() {
         Хотим каждую из этих вещей! Себе, родным и друзьям
       </Typography.Text>
 
-      {isLoading && <Spinner size="m" visible />}
+      {isLoading && (
+        <div className="centered">
+          <Spinner size="m" visible />
+        </div>
+      )}
 
       <Space direction="horizontal" wrap align="start" size="l">
         {cards.map((card) => (
