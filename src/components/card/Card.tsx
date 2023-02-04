@@ -1,6 +1,7 @@
 import { Space } from '@alfalab/core-components/space';
 import { Typography } from '@alfalab/core-components/typography';
 import { Product } from '../../types/product';
+import formatPrice from '../../utils/formatPrice';
 
 import './Card.css';
 
@@ -18,7 +19,7 @@ function Card({ product }: CardProps) {
         {title}
       </Typography.TitleResponsive>
       <Typography.Text view="primary-large" weight="bold" color="accent">
-        {price}
+        {formatPrice(price)}
       </Typography.Text>
     </Space>
   );
