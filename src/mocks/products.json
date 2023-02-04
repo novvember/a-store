@@ -1,0 +1,39 @@
+{
+  "products": [
+    {
+      "id": 0,
+      "preview": "http://localhost:3000/images/1.jpg",
+      "title": "Рюкзак «Для умных и свободных»",
+      "price": 4999,
+      "availability": true
+    },
+    {
+      "id": 1,
+      "preview": "http://localhost:3000/images/2.jpg",
+      "title": "Футболка Для умных и свободных",
+      "price": 1999,
+      "availability": true
+    },
+    {
+      "id": 2,
+      "preview": "http://localhost:3000/images/3.jpg",
+      "title": "Блокнот Для умных и свободных",
+      "price": 1499,
+      "availability": true
+    },
+    {
+      "id": 3,
+      "preview": "http://localhost:3000/images/4.jpg",
+      "title": "Чехол с кардхолдером",
+      "price": 799,
+      "availability": false
+    },
+    {
+      "id": 4,
+      "preview": "http://localhost:3000/images/5.jpg",
+      "title": "Экоручка",
+      "price": 99,
+      "availability": true
+    }
+  ]
+}
