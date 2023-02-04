@@ -26,17 +26,17 @@ function Store() {
 
   return (
     <>
-      <Typography.TitleResponsive view="xlarge" tag="h2" weight="bold">
+      <Typography.TitleResponsive view="xlarge" tag="h2" weight="bold" dataTestId='title'>
         Сделано в Альфе
       </Typography.TitleResponsive>
 
-      <Typography.Text view="primary-large" tag="p" weight="bold">
+      <Typography.Text view="primary-large" tag="p" weight="bold" dataTestId='subtitle'>
         Хотим каждую из этих вещей! Себе, родным и друзьям
       </Typography.Text>
 
       {isLoading && (
         <div className="centered">
-          <Spinner size="m" visible />
+          <Spinner size="m" visible dataTestId='spinner' />
         </div>
       )}
 

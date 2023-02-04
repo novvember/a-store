@@ -19,7 +19,13 @@ function Card({ product }: CardProps) {
   const { id, preview, title, price } = product;
 
   return (
-    <Space direction="vertical" key={id} className="card" size="s">
+    <Space
+      direction="vertical"
+      key={id}
+      className="card"
+      size="s"
+      dataTestId="card"
+    >
       <img
         src={preview}
         alt={title}
