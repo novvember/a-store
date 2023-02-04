@@ -12,16 +12,13 @@ import Menu from '../menu/Menu';
 function Header() {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
 
-  const handleMenuButtonClick = useCallback(
-    () => setIsMenuOpened((state) => !state),
-    [],
-  );
+  const toggleMenu = useCallback(() => setIsMenuOpened((state) => !state), []);
 
   return (
     <header className="header">
       <Link to="/">
         <Typography.TitleResponsive
-          view="large"
+          view="xlarge"
           tag="h1"
           color="accent"
           weight="bold"
@@ -30,7 +27,7 @@ function Header() {
         </Typography.TitleResponsive>
       </Link>
 
-      <Button view="ghost" onClick={handleMenuButtonClick}>
+      <Button view="ghost" onClick={toggleMenu}>
         <Space direction="horizontal" align="end" size="s">
           <BurgerMIcon />
           <Typography.TitleResponsive view="medium" tag="div">
@@ -39,8 +36,12 @@ function Header() {
         </Space>
       </Button>
 
-      <Drawer open={isMenuOpened} onClose={handleMenuButtonClick}>
-        <Menu />
+      <Drawer
+        open={isMenuOpened}
+        onClose={toggleMenu}
+        className="header__drawer"
+      >
+        <Menu onClick={toggleMenu} />
       </Drawer>
     </header>
   );

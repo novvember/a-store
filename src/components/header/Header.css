@@ -4,3 +4,8 @@
   display: flex;
   justify-content: space-between;
 }
+
+.header__drawer {
+  background-color: #000;
+  padding: var(--gap-xl);
+}
