@@ -15,7 +15,7 @@ function SectionHeader({ title, subtitle, type }: SectionHeaderProps) {
         view="xlarge"
         tag="h2"
         weight="bold"
-        dataTestId="title"
+        dataTestId="section-title"
         color={color}
       >
         {title}
@@ -25,7 +25,7 @@ function SectionHeader({ title, subtitle, type }: SectionHeaderProps) {
         view="primary-large"
         tag="p"
         weight="bold"
-        dataTestId="subtitle"
+        dataTestId="section-subtitle"
       >
         {subtitle}
       </Typography.Text>

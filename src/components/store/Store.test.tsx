@@ -2,18 +2,17 @@ import {
   render,
   screen,
   waitFor,
-  waitForElementToBeRemoved,
 } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import Store from './Store';
 
-describe('Store component', () => {
+describe('Store page', () => {
   it('should render properly', async () => {
     render(<Store />, { wrapper: MemoryRouter });
 
-    const title = await screen.findByTestId('title');
-    const subtitle = await screen.findByTestId('subtitle');
+    const title = await screen.findByTestId('section-title');
+    const subtitle = await screen.findByTestId('section-subtitle');
 
     await waitFor(() => new Promise((res) => setTimeout(() => res(1), 2000)), {
       timeout: 8000,
