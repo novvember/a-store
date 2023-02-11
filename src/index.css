@@ -39,3 +39,7 @@ a:visited {
   justify-content: center;
   align-items: center;
 }
+
+.section {
+  padding-block: var(--gap-xl);
+}

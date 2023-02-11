@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import CreatePage from '../create-page/CreatePage';
 import Main from '../main/Main';
 import Page from '../page/Page';
 import Page404 from '../page404/Page404';
@@ -15,6 +16,7 @@ function App() {
           </Page>
         }
       />
+
       <Route
         path="store"
         element={
@@ -23,9 +25,20 @@ function App() {
           </Page>
         }
       />
-      <Route path="create" element={<Page>Свой дизайн</Page>} />
+
+      <Route
+        path="create"
+        element={
+          <Page>
+            <CreatePage />
+          </Page>
+        }
+      />
+
       <Route path="contact" element={<Page>Контакты</Page>} />
+
       <Route path="cart" element={<Page>Корзина</Page>} />
+
       <Route
         path="*"
         element={

@@ -18,7 +18,7 @@ function Header() {
     <header className="header">
       <Link to="/">
         <Typography.TitleResponsive
-          view="xlarge"
+          view="medium"
           tag="h1"
           color="accent"
           weight="bold"

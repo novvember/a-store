@@ -1,11 +1,11 @@
-import { Typography } from '@alfalab/core-components/typography';
 import { Space } from '@alfalab/core-components/space';
-import { Spinner } from '@alfalab/core-components/spinner';
 import { useEffect, useState } from 'react';
 import { Product } from '../../types/product';
 import data from '../../mocks/products.json';
 import Card from '../card/Card';
 import { Link } from 'react-router-dom';
+import SectionHeader from '../section-header/SectionHeader';
+import Loader from '../loader/Loader';
 
 function Store() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,19 +26,13 @@ function Store() {
 
   return (
     <>
-      <Typography.TitleResponsive view="xlarge" tag="h2" weight="bold" dataTestId='title'>
-        Сделано в Альфе
-      </Typography.TitleResponsive>
+      <SectionHeader
+        title="Сделано в Альфе"
+        subtitle="Хотим каждую из этих вещей! Себе, родным и друзьям"
+        type="primary"
+      />
 
-      <Typography.Text view="primary-large" tag="p" weight="bold" dataTestId='subtitle'>
-        Хотим каждую из этих вещей! Себе, родным и друзьям
-      </Typography.Text>
-
-      {isLoading && (
-        <div className="centered">
-          <Spinner size="m" visible dataTestId='spinner' />
-        </div>
-      )}
+      {isLoading && <Loader />}
 
       <Space direction="horizontal" wrap align="start" size="l">
         {cards.map((card) => (

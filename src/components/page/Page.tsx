@@ -9,7 +9,7 @@ function Page({ children }: PageProps) {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className="section">{children}</main>
       <Footer />
     </>
   );
