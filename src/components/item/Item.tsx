@@ -13,11 +13,15 @@ function Item() {
 
   return (
     <>
-      <Space direction="horizontal" className="item">
+      <Space direction="horizontal" className="item" dataTestId="item">
         <Gallery images={images} title={title} />
 
         <Space>
-          <Typography.TitleResponsive tag="h2" view="small">
+          <Typography.TitleResponsive
+            tag="h2"
+            view="small"
+            dataTestId="item-title"
+          >
             {title}
           </Typography.TitleResponsive>
 
@@ -35,7 +39,7 @@ function Item() {
           <Typography.Text
             view="secondary-large"
             color="primary"
-            dataTestId="price"
+            dataTestId="description"
           >
             {description}
           </Typography.Text>

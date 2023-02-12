@@ -35,7 +35,7 @@ function Gallery({ images, title }: GalleryProps) {
 
   return (
     <>
-      <div className="gallery">
+      <div className="gallery" data-test-id="grid">
         {images.map((src, index) => (
           <img
             src={src}
@@ -43,6 +43,7 @@ function Gallery({ images, title }: GalleryProps) {
             className="gallery__image"
             onClick={() => openGallery(index)}
             key={src}
+            data-test-id="gallery-image"
           />
         ))}
       </div>
@@ -53,6 +54,7 @@ function Gallery({ images, title }: GalleryProps) {
         images={galleryImages}
         initialSlide={initialSlide}
         loop={true}
+        data-test-id="gallery"
       />
     </>
   );

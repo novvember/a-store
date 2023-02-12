@@ -88,6 +88,7 @@ function AddToCartForm({ id }: AddToCartFormProps) {
               placeholder="Цвет"
               selected={selected.color}
               onChange={handleSelect}
+              dataTestId="select"
             />
           )}
 
@@ -98,6 +99,7 @@ function AddToCartForm({ id }: AddToCartFormProps) {
               name="size"
               onChange={handleSelect}
               selected={selected.size}
+              dataTestId="select"
             />
           )}
 
@@ -108,6 +110,7 @@ function AddToCartForm({ id }: AddToCartFormProps) {
               name="stickerNumber"
               onChange={handleSelect}
               selected={selected.stickerNumber}
+              dataTestId="select"
             />
           )}
         </Space>
@@ -117,6 +120,7 @@ function AddToCartForm({ id }: AddToCartFormProps) {
           view="primary"
           disabled={disabled}
           onClick={handleSubmit}
+          dataTestId="button"
         >
           В корзину
         </Button>
