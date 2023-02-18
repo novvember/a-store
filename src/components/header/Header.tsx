@@ -8,6 +8,7 @@ import './Header.css';
 import { Link } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import Menu from '../menu/Menu';
+import CartButton from '../cart-button/CartButton';
 
 function Header() {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
@@ -35,6 +36,8 @@ function Header() {
           </Typography.TitleResponsive>
         </Space>
       </Button>
+
+      <CartButton />
 
       <Drawer
         open={isMenuOpened}

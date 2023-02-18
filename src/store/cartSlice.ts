@@ -6,12 +6,14 @@ type CartSlice = {
   items: unknown[];
   status: 'loading' | 'succeeded' | 'failed' | 'idle';
   error: string;
+  isOpened: boolean;
 };
 
 const initialState: CartSlice = {
   items: [],
   status: 'idle',
   error: '',
+  isOpened: false,
 };
 
 export const createOrder = createAsyncThunk(
@@ -25,6 +27,9 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    drawerToggled(state, action) {
+      state.isOpened = !state.isOpened;
+    },
     itemAdded(state, action) {
       state.items.push(action.payload);
     },
@@ -45,7 +50,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { itemAdded } = cartSlice.actions;
+export const { drawerToggled, itemAdded } = cartSlice.actions;
 
 export default cartSlice.reducer;
 
@@ -54,3 +59,5 @@ export const selectCartStatus = (state: AppState) => state.cart.status;
 export const selectCartError = (state: AppState) => state.cart.error;
 
 export const selectCartItems = (state: AppState) => state.cart.items;
+
+export const selectCartCount = (state: AppState) => state.cart.items.length;
