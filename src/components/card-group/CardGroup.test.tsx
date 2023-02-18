@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-
 import CardGroup from './CardGroup';
 import data from '../../mocks/groups.json';
+import { MemoryRouter } from 'react-router-dom';
 
 const MOCK_GROUP = data.groups[0];
 

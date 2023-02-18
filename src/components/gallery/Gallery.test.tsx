@@ -20,7 +20,7 @@ describe('Gallery component', () => {
     render(<Gallery images={IMAGES} title={TITLE} />);
 
     const grid = await screen.findAllByTestId('grid');
-    const images = await screen.findAllByTestId('gallery-image');
+    const images = await screen.findAllByRole('img');
 
     expect(grid).toBeTruthy();
     expect(images.length).toBe(7);

@@ -15,8 +15,8 @@ const CARD_MOCK = {
 describe('Card component', () => {
   it('should render properly', async () => {
     render(<Card product={CARD_MOCK} />);
-    const image = (await screen.findByTestId('img')) as HTMLImageElement;
-    const title = await screen.findByTestId('title');
+    const image = (await screen.findByRole('img')) as HTMLImageElement;
+    const title = await screen.findByRole('heading');
     const price = await screen.findByTestId('price');
 
     expect(image.src).toBe(CARD_MOCK.preview);

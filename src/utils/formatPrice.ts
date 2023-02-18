@@ -1,10 +1,11 @@
-export default function formatPrice(price: number) {
-  const SPACE = ' ';
-  const DEVIDER = ',';
-  const SYM = '₽';
+const SPACE = ' ';
+const DEVIDER = ',';
+const SYM = '₽';
 
+export default function formatPrice(price: number) {
   const digits = price.toString();
-  const length = digits.includes('.') ? digits.indexOf('.') : digits.length;
+  const deviderPos = digits.indexOf('.');
+  const length = deviderPos >= 0 ? deviderPos : digits.length;
   const res = [];
 
   for (let i = 0; i < length; i++) {
