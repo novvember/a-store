@@ -1,5 +1,5 @@
 import { Space } from '@alfalab/core-components/space';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Card from '../card/Card';
 import { Link } from 'react-router-dom';
 import SectionHeader from '../section-header/SectionHeader';

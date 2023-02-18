@@ -18,7 +18,7 @@ function CardGroup({ group }: CardGroupPros) {
       />
       <Space direction="horizontal" wrap align="start" size="l">
         {group.products.map((card) => (
-          <Link to="/" key={card.id}>
+          <Link to={`/item/${card.id}`} key={card.id}>
             <Card product={card} />
           </Link>
         ))}

@@ -15,9 +15,12 @@ const initialState: StoreSlice = {
   error: '',
 };
 
-export const fetchStoreItems = createAsyncThunk('store/fetchItems', async () => {
-  return await api.getStoreItems();
-});
+export const fetchStoreItems = createAsyncThunk(
+  'store/fetchItems',
+  async () => {
+    return await api.getStoreItems();
+  },
+);
 
 const storeSlice = createSlice({
   name: 'store',
@@ -46,6 +49,3 @@ export const selectStoreStatus = (state: AppState) => state.store.status;
 export const selectStoreError = (state: AppState) => state.store.error;
 
 export const selectAllStoreItems = (state: AppState) => state.store.items;
-
-export const selectStoreItemById = (state: AppState, id: number) =>
-  state.store.items.find((item) => item.id === id);
