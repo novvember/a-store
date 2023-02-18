@@ -1,5 +1,5 @@
 import { Group } from '../types/group';
-import { Product } from '../types/product';
+import { FullProduct, PreviewProduct } from '../types/product';
 
 class Api {
   private baseUrl: string;
@@ -13,7 +13,7 @@ class Api {
     const res = await fetch(url);
 
     if (res.ok) {
-      return (await res.json()) as Product[];
+      return (await res.json()) as PreviewProduct[];
     } else {
       throw new Error('Не удалось получить товары');
     }
@@ -27,6 +27,17 @@ class Api {
       return (await res.json()) as Group[];
     } else {
       throw new Error('Не удалось получить товары');
+    }
+  }
+
+  async getItemById(id: number) {
+    const url = `${this.baseUrl}/product/${id}`;
+    const res = await fetch(url);
+
+    if (res.ok) {
+      return (await res.json()) as FullProduct;
+    } else {
+      throw new Error('Не удалось получить информацию о товаре');
     }
   }
 }

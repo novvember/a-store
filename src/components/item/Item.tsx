@@ -1,15 +1,46 @@
 import { Space } from '@alfalab/core-components/space';
 import { useParams } from 'react-router-dom';
-import data from '../../mocks/groups.json';
 import './Item.css';
 import { Typography } from '@alfalab/core-components/typography';
 import formatPrice from '../../utils/formatPrice';
 import Gallery from '../gallery/Gallery';
 import AddToCartForm from '../add-to-cart-form/AddToCartForm';
+import { useEffect, useState } from 'react';
+import api from '../../api/api';
+import Loader from '../loader/Loader';
+import ErrorMessage from '../error-message/ErrorMessage';
+import { FullProduct } from '../../types/product';
 
 function Item() {
   const { id } = useParams();
-  const { images, title, price, description } = data.groups[0].products[1];
+  const [product, setProduct] = useState<FullProduct | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!product && id) {
+      const fetchProduct = async () => {
+        setIsLoading(true);
+        setError('');
+
+        try {
+          const product = await api.getItemById(+id);
+          setProduct(product);
+        } catch {
+          setError('Не удалось получить информацию о товаре');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchProduct();
+    }
+  }, [id, product]);
+
+  if (isLoading) return <Loader />;
+  if (!!error || !product) return <ErrorMessage>{error}</ErrorMessage>;
+
+  const { images, title, price, description } = product;
 
   return (
     <>
@@ -34,7 +65,7 @@ function Item() {
             {formatPrice(price)}
           </Typography.Text>
 
-          <AddToCartForm id={id ?? ''} />
+          <AddToCartForm product={product} />
 
           <Typography.Text
             view="secondary-large"

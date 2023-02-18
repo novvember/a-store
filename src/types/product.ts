@@ -1,13 +1,16 @@
-export type Product = {
+export interface PreviewProduct {
   id: number;
   preview: string;
-  images?: string[];
   title: string;
-  subtitle?: string;
   price: number;
-  description?: string;
-  colors?: string[];
-  sizes?: string[];
-  stickerNumbers?: number[];
   availability: boolean;
-};
+}
+
+export interface FullProduct extends PreviewProduct {
+  images: string[];
+  subtitle: string;
+  description: string;
+  colors: string[];
+  sizes: string[];
+  stickerNumbers: number[];
+}

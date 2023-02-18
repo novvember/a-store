@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import { Group } from '../../types/group';
-import data from '../../mocks/groups.json';
+import { useEffect } from 'react';
 import CardGroup from '../card-group/CardGroup';
 import SectionHeader from '../section-header/SectionHeader';
 import Loader from '../loader/Loader';

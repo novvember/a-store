@@ -6,15 +6,15 @@ import {
 import { Space } from '@alfalab/core-components/space';
 import { useEffect, useState } from 'react';
 
-import data from '../../mocks/groups.json';
+import { FullProduct } from '../../types/product';
 import getColorName from '../../utils/getColorName';
 
 type AddToCartFormProps = {
-  id: string;
+  product: FullProduct;
 };
 
-function AddToCartForm({ id }: AddToCartFormProps) {
-  const { colors, sizes, stickerNumbers } = data.groups[0].products[1];
+function AddToCartForm({ product }: AddToCartFormProps) {
+  const { colors, sizes, stickerNumbers } = product;
 
   const getInitialSelected = () => {
     const selected: Record<string, string> = {};

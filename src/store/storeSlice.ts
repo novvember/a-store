@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import api from '../api/api';
-import { Product } from '../types/product';
+import { PreviewProduct } from '../types/product';
 import { AppState } from './index';
 
 type StoreSlice = {
-  items: Product[];
+  items: PreviewProduct[];
   status: 'loading' | 'succeeded' | 'failed' | 'idle';
   error: string;
 };
