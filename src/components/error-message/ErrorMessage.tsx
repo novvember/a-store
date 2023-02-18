@@ -1,4 +1,5 @@
 import { Typography } from '@alfalab/core-components/typography';
+import './ErrorMessage.css';
 
 type ErrorMessageProps = {
   children: string;
@@ -6,7 +7,12 @@ type ErrorMessageProps = {
 
 function ErrorMessage({ children }: ErrorMessageProps) {
   return (
-    <Typography.TitleResponsive view="medium" color="attention" tag="div">
+    <Typography.TitleResponsive
+      view="xsmall"
+      color="attention"
+      tag="div"
+      className="error-message"
+    >
       {children}
     </Typography.TitleResponsive>
   );
