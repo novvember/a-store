@@ -1,0 +1,21 @@
+.main__link {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  padding: var(--gap-s);
+  background-position: center;
+  background-size: 100%;
+  transition: background-size ease-in-out 0.4s;
+}
+
+.main__link_type_create {
+  background-image: url(./create.jpeg);
+}
+
+.main__link_type_store {
+  background-image: url(./store.jpeg);
+}
+
+.main__link:hover {
+  background-size: 110%;
+}

@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fff;
+  padding-block: var(--gap-xs);
+}
+
+.header__drawer {
+  background-color: #000;
+  padding: var(--gap-xl);
+}
