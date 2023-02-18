@@ -1,6 +1,6 @@
 import { Space } from '@alfalab/core-components/space';
-import { Link } from 'react-router-dom';
 import { Typography } from '@alfalab/core-components/typography';
+import { Link } from 'react-router-dom';
 
 type MenuItem = {
   title: string;

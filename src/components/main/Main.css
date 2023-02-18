@@ -8,11 +8,11 @@
   transition: background-size ease-in-out 0.4s;
 }
 
-.main__link[href$='create'] {
+.main__link_type_create {
   background-image: url(./create.jpeg);
 }
 
-.main__link[href$='store'] {
+.main__link_type_store {
   background-image: url(./store.jpeg);
 }
 
