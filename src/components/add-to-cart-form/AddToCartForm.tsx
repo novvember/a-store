@@ -4,7 +4,7 @@ import {
   Select,
 } from '@alfalab/core-components/select';
 import { Space } from '@alfalab/core-components/space';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import data from '../../mocks/groups.json';
 import getColorName from '../../utils/getColorName';
@@ -24,7 +24,7 @@ function AddToCartForm({ id }: AddToCartFormProps) {
     return selected;
   };
 
-  const [selected, setSelected] = useState(getInitialSelected());
+  const [selected, setSelected] = useState(getInitialSelected);
 
   const [disabled, setDisabled] = useState(true);
 
@@ -49,32 +49,26 @@ function AddToCartForm({ id }: AddToCartFormProps) {
     setDisabled(Object.values(selected).some((value) => value === ''));
   }, [selected]);
 
-  const colorsOptions = useMemo(() => {
-    if (colors) {
-      return colors.map((color) => ({
-        key: color,
-        content: getColorName(color),
-      }));
-    }
-  }, [colors]);
+  const colorsOptions =
+    colors &&
+    colors.map((color) => ({
+      key: color,
+      content: getColorName(color),
+    }));
 
-  const sizesOptions = useMemo(() => {
-    if (sizes) {
-      return sizes.map((size) => ({
-        key: size,
-        content: size,
-      }));
-    }
-  }, [sizes]);
+  const sizesOptions =
+    sizes &&
+    sizes.map((size) => ({
+      key: size,
+      content: size,
+    }));
 
-  const stickersOptions = useMemo(() => {
-    if (stickerNumbers) {
-      return stickerNumbers.map((sticker) => ({
-        key: sticker.toString(),
-        content: sticker.toString(),
-      }));
-    }
-  }, [stickerNumbers]);
+  const stickersOptions =
+    stickerNumbers &&
+    stickerNumbers.map((sticker) => ({
+      key: sticker.toString(),
+      content: sticker.toString(),
+    }));
 
   return (
     <form>
