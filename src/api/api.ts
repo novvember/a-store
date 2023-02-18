@@ -40,6 +40,21 @@ class Api {
       throw new Error('Не удалось получить информацию о товаре');
     }
   }
+
+  async createOrder(payload: any) {
+    const url = `${this.baseUrl}/create-order`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      body: payload,
+    });
+
+    if (res.ok) {
+      return (await res.json()) as unknown;
+    } else {
+      throw new Error('Не удалось получить отправить заказ');
+    }
+  }
 }
 
 const api = new Api('http://qa-games.ru/astore');
