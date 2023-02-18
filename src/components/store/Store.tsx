@@ -1,28 +1,29 @@
 import { Space } from '@alfalab/core-components/space';
 import { useEffect, useState } from 'react';
-import { Product } from '../../types/product';
-import data from '../../mocks/products.json';
 import Card from '../card/Card';
 import { Link } from 'react-router-dom';
 import SectionHeader from '../section-header/SectionHeader';
 import Loader from '../loader/Loader';
+import { useAppDispatch, useAppSelector } from '../../store';
+import {
+  fetchStoreItems,
+  selectAllStoreItems,
+  selectStoreError,
+  selectStoreStatus,
+} from '../../store/storeSlice';
+import ErrorMessage from '../error-message/ErrorMessage';
 
 function Store() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [cards, setCards] = useState<Product[]>([]);
-
-  const fetchProducts = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      const products = data.products;
-      setCards(products);
-      setIsLoading(false);
-    }, 1000);
-  };
+  const dispatch = useAppDispatch();
+  const cards = useAppSelector(selectAllStoreItems);
+  const status = useAppSelector(selectStoreStatus);
+  const error = useAppSelector(selectStoreError);
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    if (status === 'idle') {
+      dispatch(fetchStoreItems());
+    }
+  }, [dispatch, status]);
 
   return (
     <>
@@ -32,15 +33,19 @@ function Store() {
         type="primary"
       />
 
-      {isLoading && <Loader />}
+      {status === 'loading' && <Loader />}
 
-      <Space direction="horizontal" wrap align="start" size="l">
-        {cards.map((card) => (
-          <Link to="/" key={card.id}>
-            <Card product={card} />
-          </Link>
-        ))}
-      </Space>
+      {status === 'failed' && <ErrorMessage>{error}</ErrorMessage>}
+
+      {status === 'succeeded' && (
+        <Space direction="horizontal" wrap align="start" size="l">
+          {cards.map((card) => (
+            <Link to={`/item/${card.id}`} key={card.id}>
+              <Card product={card} />
+            </Link>
+          ))}
+        </Space>
+      )}
     </>
   );
 }
