@@ -1,18 +1,18 @@
 import { Space } from '@alfalab/core-components/space';
 import { Typography } from '@alfalab/core-components/typography';
-import { Product } from '../../types/product';
 import formatPrice from '../../utils/formatPrice';
 
 import './Card.css';
 
 import { configure } from '@testing-library/dom';
+import { PreviewProduct } from '../../types/product';
 
 configure({
   testIdAttribute: 'data-test-id',
 });
 
 type CardProps = {
-  product: Product;
+  product: PreviewProduct;
 };
 
 function Card({ product }: CardProps) {
