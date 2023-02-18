@@ -5,6 +5,8 @@ import {
 } from '@alfalab/core-components/select';
 import { Space } from '@alfalab/core-components/space';
 import { useEffect, useState } from 'react';
+import { useAppDispatch } from '../../store';
+import { itemAdded } from '../../store/cartSlice';
 
 import { FullProduct } from '../../types/product';
 import getColorName from '../../utils/getColorName';
@@ -14,7 +16,8 @@ type AddToCartFormProps = {
 };
 
 function AddToCartForm({ product }: AddToCartFormProps) {
-  const { colors, sizes, stickerNumbers } = product;
+  const { colors, sizes, stickerNumbers, id } = product;
+  const dispatch = useAppDispatch();
 
   const getInitialSelected = () => {
     const selected: Record<string, string> = {};
@@ -41,8 +44,11 @@ function AddToCartForm({ product }: AddToCartFormProps) {
   };
 
   const handleSubmit = () => {
-    console.log('submited');
-    console.log(selected);
+    const item = {
+      id,
+      params: selected,
+    };
+    dispatch(itemAdded(item));
   };
 
   useEffect(() => {

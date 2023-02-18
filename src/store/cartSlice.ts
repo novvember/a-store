@@ -27,7 +27,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    drawerToggled(state, action) {
+    drawerToggled(state) {
       state.isOpened = !state.isOpened;
     },
     itemAdded(state, action) {
@@ -61,3 +61,5 @@ export const selectCartError = (state: AppState) => state.cart.error;
 export const selectCartItems = (state: AppState) => state.cart.items;
 
 export const selectCartCount = (state: AppState) => state.cart.items.length;
+
+export const selectIsCartOpened = (state: AppState) => state.cart.isOpened;

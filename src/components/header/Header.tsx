@@ -9,11 +9,17 @@ import { Link } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import Menu from '../menu/Menu';
 import CartButton from '../cart-button/CartButton';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { drawerToggled, selectIsCartOpened } from '../../store/cartSlice';
 
 function Header() {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
+  const dispatch = useAppDispatch();
+  const isCartOpened = useAppSelector(selectIsCartOpened);
 
   const toggleMenu = useCallback(() => setIsMenuOpened((state) => !state), []);
+
+  const toogleCart = () => dispatch(drawerToggled());
 
   return (
     <header className="header">
@@ -37,14 +43,18 @@ function Header() {
         </Space>
       </Button>
 
-      <CartButton />
-
       <Drawer
         open={isMenuOpened}
         onClose={toggleMenu}
         className="header__drawer"
       >
         <Menu onClick={toggleMenu} />
+      </Drawer>
+
+      <CartButton />
+
+      <Drawer open={isCartOpened} onClose={toogleCart} className="header__cart">
+        <div>Cart</div>
       </Drawer>
     </header>
   );

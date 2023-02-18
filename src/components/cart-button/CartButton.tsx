@@ -8,7 +8,7 @@ function CartButton() {
   const dispatch = useAppDispatch();
   const cartCount = useAppSelector(selectCartCount);
 
-  // if (!cartCount) return null;
+  if (!cartCount) return null;
 
   const handleClick = () => {
     dispatch(drawerToggled());
