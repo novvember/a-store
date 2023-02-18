@@ -1,4 +1,4 @@
-@import url(./vendor/normalize.css);
+@import-normalize; /* bring in normalize.css styles */
 @import url(./vendor/fonts/styrene/index.css);
 @import '@alfalab/core-components/vars/gaps.css';
 @import '@alfalab/core-components/vars/colors-indigo.css';
@@ -12,6 +12,7 @@ body {
   text-rendering: optimizeLegibility;
   font-family: 'Styrene UI', sans-serif;
   padding-inline: var(--gap-s);
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
