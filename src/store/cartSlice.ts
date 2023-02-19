@@ -9,12 +9,18 @@ type CartSlice = {
   isOpened: boolean;
 };
 
-const initialState: CartSlice = {
+const defaultState: CartSlice = {
   items: [],
   status: 'idle',
   error: '',
   isOpened: false,
 };
+
+const savedState = localStorage.getItem('cart')
+  ? JSON.parse(localStorage.getItem('cart')!)
+  : null;
+
+const initialState: CartSlice = savedState ?? defaultState;
 
 export const createOrder = createAsyncThunk(
   'cart/createOrder',
