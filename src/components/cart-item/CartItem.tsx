@@ -12,12 +12,11 @@ import { TrashCanMIcon } from '@alfalab/icons-glyph/TrashCanMIcon';
 import { useAppDispatch } from '../../store';
 import {
   drawerToggled,
-  itemAdded,
   itemDeleted,
   itemMinused,
   itemPlused,
 } from '../../store/cartSlice';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 type CartItemProps = {
   item: CartItemType;
@@ -25,7 +24,6 @@ type CartItemProps = {
 
 function CartItem({ item }: CartItemProps) {
   const dispatch = useAppDispatch();
-  const location = useLocation();
 
   const {
     description: { preview, title, price, id },
@@ -49,9 +47,7 @@ function CartItem({ item }: CartItemProps) {
   };
 
   const handleTitleClick = () => {
-    if (location.pathname !== '/cart') {
-      dispatch(drawerToggled());
-    }
+    dispatch(drawerToggled());
   };
 
   return (
