@@ -1,9 +1,11 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import api from '../api/api';
+import { CartItem } from '../types/cartItem';
+import compareCartItems from '../utils/compareCartItems';
 import { AppState } from './index';
 
 type CartSlice = {
-  items: unknown[];
+  items: CartItem[];
   status: 'loading' | 'succeeded' | 'failed' | 'idle';
   error: string;
   isOpened: boolean;
@@ -36,8 +38,16 @@ const cartSlice = createSlice({
     drawerToggled(state) {
       state.isOpened = !state.isOpened;
     },
-    itemAdded(state, action) {
-      state.items.push(action.payload);
+    itemAdded(state, action: PayloadAction<CartItem>) {
+      const sameItem = state.items.find((item) =>
+        compareCartItems(item, action.payload),
+      );
+
+      if (sameItem) {
+        sameItem.quantity++;
+      } else {
+        state.items.push(action.payload);
+      }
     },
   },
   extraReducers(builder) {
@@ -66,6 +76,7 @@ export const selectCartError = (state: AppState) => state.cart.error;
 
 export const selectCartItems = (state: AppState) => state.cart.items;
 
-export const selectCartCount = (state: AppState) => state.cart.items.length;
+export const selectCartCount = (state: AppState) =>
+  state.cart.items.reduce((count, item) => count + item.quantity, 0);
 
 export const selectIsCartOpened = (state: AppState) => state.cart.isOpened;

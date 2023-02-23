@@ -7,27 +7,30 @@ import { Space } from '@alfalab/core-components/space';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../store';
 import { itemAdded } from '../../store/cartSlice';
+import { ProductParams } from '../../types/cartItem';
 
 import { FullProduct } from '../../types/product';
+import buildCartItem from '../../utils/buildCartItem';
 import getColorName from '../../utils/getColorName';
+import getParamLabel from '../../utils/getParamLabel';
 
 type AddToCartFormProps = {
   product: FullProduct;
 };
 
 function AddToCartForm({ product }: AddToCartFormProps) {
-  const { colors, sizes, stickerNumbers, id } = product;
+  const { colors, sizes, stickerNumbers } = product;
   const dispatch = useAppDispatch();
 
   const getInitialSelected = () => {
-    const selected: Record<string, string> = {};
+    const selected: ProductParams = {};
     if (colors) selected.color = '';
     if (sizes) selected.size = '';
     if (stickerNumbers) selected.stickerNumber = '';
     return selected;
   };
 
-  const [selected, setSelected] = useState(getInitialSelected);
+  const [selected, setSelected] = useState<ProductParams>(getInitialSelected);
 
   const [disabled, setDisabled] = useState(true);
 
@@ -44,10 +47,7 @@ function AddToCartForm({ product }: AddToCartFormProps) {
   };
 
   const handleSubmit = () => {
-    const item = {
-      id,
-      params: selected,
-    };
+    const item = buildCartItem(product, selected);
     dispatch(itemAdded(item));
   };
 
@@ -85,7 +85,7 @@ function AddToCartForm({ product }: AddToCartFormProps) {
               size="s"
               options={colorsOptions!}
               name="color"
-              placeholder="Цвет"
+              placeholder={getParamLabel('color')}
               selected={selected.color}
               onChange={handleSelect}
               dataTestId="select"
@@ -95,7 +95,7 @@ function AddToCartForm({ product }: AddToCartFormProps) {
           {sizes && (
             <Select
               options={sizesOptions!}
-              placeholder="Размер"
+              placeholder={getParamLabel('size')}
               name="size"
               onChange={handleSelect}
               selected={selected.size}
@@ -106,7 +106,7 @@ function AddToCartForm({ product }: AddToCartFormProps) {
           {stickerNumbers && (
             <Select
               options={stickersOptions!}
-              placeholder="Стикер"
+              placeholder={getParamLabel('stickerNumber')}
               name="stickerNumber"
               onChange={handleSelect}
               selected={selected.stickerNumber}
