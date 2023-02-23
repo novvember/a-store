@@ -11,6 +11,7 @@ import Menu from '../menu/Menu';
 import CartButton from '../cart-button/CartButton';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { drawerToggled, selectIsCartOpened } from '../../store/cartSlice';
+import CartDrawer from '../cart-drawer/CartDrawer';
 
 function Header() {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
@@ -54,7 +55,7 @@ function Header() {
       <CartButton />
 
       <Drawer open={isCartOpened} onClose={toogleCart} className="header__cart">
-        <div>Cart</div>
+        <CartDrawer onClose={toogleCart} />
       </Drawer>
     </header>
   );
