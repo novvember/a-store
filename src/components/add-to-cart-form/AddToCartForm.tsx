@@ -11,7 +11,7 @@ import { ProductParams } from '../../types/cartItem';
 
 import { FullProduct } from '../../types/product';
 import buildCartItem from '../../utils/buildCartItem';
-import getColorName from '../../utils/getColorName';
+import getParamValue from '../../utils/getParamValue';
 import getParamLabel from '../../utils/getParamLabel';
 
 type AddToCartFormProps = {
@@ -59,7 +59,7 @@ function AddToCartForm({ product }: AddToCartFormProps) {
     colors &&
     colors.map((color) => ({
       key: color,
-      content: getColorName(color),
+      content: getParamValue(color),
     }));
 
   const sizesOptions =
