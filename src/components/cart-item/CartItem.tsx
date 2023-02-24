@@ -4,7 +4,6 @@ import { CartItem as CartItemType } from '../../types/cartItem';
 import getColorName from '../../utils/getParamValue';
 import getParamLabel from '../../utils/getParamLabel';
 import './CartItem.css';
-import formatPrice from '../../utils/formatPrice';
 import { Button } from '@alfalab/core-components/button';
 import { MinusCircleMIcon } from '@alfalab/icons-glyph/MinusCircleMIcon';
 import { AddCircleMIcon } from '@alfalab/icons-glyph/AddCircleMIcon';
@@ -17,6 +16,7 @@ import {
   itemPlused,
 } from '../../store/cartSlice';
 import { Link } from 'react-router-dom';
+import { Amount } from '@alfalab/core-components/amount';
 
 type CartItemProps = {
   item: CartItemType;
@@ -94,9 +94,8 @@ function CartItem({ item }: CartItemProps) {
         view="primary-medium"
         className="cart-item__cost"
         color="accent"
-        weight="medium"
       >
-        {formatPrice(price * quantity)}
+        <Amount value={price * quantity} currency="RUR" minority={1} />
       </Typography.Text>
 
       <Button

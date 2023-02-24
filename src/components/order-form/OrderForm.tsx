@@ -55,7 +55,6 @@ function OrderForm() {
             size="xs"
             rightAddons={
               <Amount
-                view="withZeroMinorPart"
                 value={350}
                 currency="RUR"
                 minority={1}

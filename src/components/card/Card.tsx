@@ -1,11 +1,11 @@
 import { Space } from '@alfalab/core-components/space';
 import { Typography } from '@alfalab/core-components/typography';
-import formatPrice from '../../utils/formatPrice';
 
 import './Card.css';
 
 import { configure } from '@testing-library/dom';
 import { PreviewProduct } from '../../types/product';
+import { Amount } from '@alfalab/core-components/amount';
 
 configure({
   testIdAttribute: 'data-test-id',
@@ -41,7 +41,13 @@ function Card({ product }: CardProps) {
         color="accent"
         dataTestId="price"
       >
-        {formatPrice(price)}
+        {
+          <Amount
+            value={price}
+            currency="RUR"
+            minority={1}
+          />
+        }
       </Typography.Text>
     </Space>
   );

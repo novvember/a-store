@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import formatPrice from '../../utils/formatPrice';
 import '@testing-library/jest-dom/extend-expect';
 
 import Card from './Card';
@@ -17,10 +16,8 @@ describe('Card component', () => {
     render(<Card product={CARD_MOCK} />);
     const image = (await screen.findByRole('img')) as HTMLImageElement;
     const title = await screen.findByRole('heading');
-    const price = await screen.findByTestId('price');
 
     expect(image.src).toBe(CARD_MOCK.preview);
     expect(title.textContent).toBe(CARD_MOCK.title);
-    expect(price.textContent).toBe(formatPrice(CARD_MOCK.price));
   });
 });

@@ -2,7 +2,6 @@ import { Space } from '@alfalab/core-components/space';
 import { useParams } from 'react-router-dom';
 import './Item.css';
 import { Typography } from '@alfalab/core-components/typography';
-import formatPrice from '../../utils/formatPrice';
 import Gallery from '../gallery/Gallery';
 import AddToCartForm from '../add-to-cart-form/AddToCartForm';
 import { useEffect, useState } from 'react';
@@ -10,6 +9,7 @@ import api from '../../api/api';
 import Loader from '../loader/Loader';
 import ErrorMessage from '../error-message/ErrorMessage';
 import { FullProduct } from '../../types/product';
+import { Amount } from '@alfalab/core-components/amount';
 
 function Item() {
   const { id } = useParams();
@@ -62,7 +62,7 @@ function Item() {
             color="accent"
             dataTestId="price"
           >
-            {formatPrice(price)}
+            <Amount value={price} currency="RUR" minority={1} />
           </Typography.Text>
 
           <AddToCartForm product={product} />

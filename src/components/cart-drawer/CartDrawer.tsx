@@ -5,7 +5,7 @@ import CartList from '../cart-list/CartList';
 import { useAppSelector } from '../../store';
 import { selectCartItems, selectTotalCartCost } from '../../store/cartSlice';
 import { useNavigate } from 'react-router-dom';
-import formatPrice from '../../utils/formatPrice';
+import { Amount } from '@alfalab/core-components/amount';
 
 type CartDrawerProps = {
   onClose: () => void;
@@ -23,7 +23,7 @@ function CartDrawer({ onClose }: CartDrawerProps) {
   };
 
   return (
-    <Space direction="vertical">
+    <Space direction="vertical" fullWidth>
       <Typography.TitleResponsive tag="h2" view="medium">
         Корзина
       </Typography.TitleResponsive>
@@ -31,13 +31,16 @@ function CartDrawer({ onClose }: CartDrawerProps) {
       {isEmpty && <Typography.Text>Пока в корзине ничего нет</Typography.Text>}
 
       {!isEmpty && (
-        <Space direction="vertical" size="l" align="end">
+        <Space direction="vertical" size="l" fullWidth>
           <CartList />
-
-          <Typography.Text view="primary-medium" weight="medium" defaultMargins>
-            {`Сумма: ${formatPrice(totalCost)}`}
-          </Typography.Text>
-          <Button view="primary" onClick={handleButtonClick}>
+          <Button
+            view="primary"
+            onClick={handleButtonClick}
+            rightAddons={
+              <Amount value={totalCost} currency="RUR" minority={1} />
+            }
+            block
+          >
             Оформить заказ
           </Button>
         </Space>
