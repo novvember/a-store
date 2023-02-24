@@ -1,6 +1,6 @@
 .cart-item {
   display: grid;
-  grid-template-columns: 3fr 3fr 2fr 2fr 20px;
+  grid-template-columns: 3fr 3fr 3fr 2fr 20px;
   grid-template-rows: auto auto;
   grid-template-areas:
     'image title title title delete'
@@ -38,12 +38,6 @@
 
 .cart-item__quantity:hover .cart-item__quantity-button {
   visibility: visible;
-}
-
-.cart-item__quantity-button_type_minus {
-}
-
-.cart-item__quantity-button_type_plus {
 }
 
 .cart-item__cost {
