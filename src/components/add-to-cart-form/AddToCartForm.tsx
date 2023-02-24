@@ -20,6 +20,7 @@ type AddToCartFormProps = {
 
 function AddToCartForm({ product }: AddToCartFormProps) {
   const { colors, sizes, stickerNumbers } = product;
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
 
   const getInitialSelected = () => {
@@ -47,8 +48,10 @@ function AddToCartForm({ product }: AddToCartFormProps) {
   };
 
   const handleSubmit = () => {
+    setIsLoading(true);
     const item = buildCartItem(product, selected);
     dispatch(itemAdded(item));
+    setTimeout(() => setIsLoading(false), 30);
   };
 
   useEffect(() => {
@@ -121,6 +124,7 @@ function AddToCartForm({ product }: AddToCartFormProps) {
           disabled={disabled}
           onClick={handleSubmit}
           dataTestId="button"
+          loading={isLoading}
         >
           В корзину
         </Button>
