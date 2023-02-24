@@ -4,7 +4,8 @@ import {
   Select,
 } from '@alfalab/core-components/select';
 import { Space } from '@alfalab/core-components/space';
-import { useEffect, useState } from 'react';
+import { Toast } from '@alfalab/core-components/toast';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '../../store';
 import { itemAdded } from '../../store/cartSlice';
 import { ProductParams } from '../../types/cartItem';
@@ -20,8 +21,10 @@ type AddToCartFormProps = {
 
 function AddToCartForm({ product }: AddToCartFormProps) {
   const { colors, sizes, stickerNumbers } = product;
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
+
+  const [isToastOpened, setIsToastOpened] = useState(false);
+  const button = useRef<HTMLButtonElement>(null);
 
   const getInitialSelected = () => {
     const selected: ProductParams = {};
@@ -48,10 +51,9 @@ function AddToCartForm({ product }: AddToCartFormProps) {
   };
 
   const handleSubmit = () => {
-    setIsLoading(true);
     const item = buildCartItem(product, selected);
     dispatch(itemAdded(item));
-    setTimeout(() => setIsLoading(false), 30);
+    setIsToastOpened(true);
   };
 
   useEffect(() => {
@@ -118,13 +120,28 @@ function AddToCartForm({ product }: AddToCartFormProps) {
           )}
         </Space>
 
+        <Toast
+          open={isToastOpened}
+          anchorElement={button.current}
+          position="right"
+          offset={[0, 8]}
+          badge="positive"
+          title="Добавлено"
+          hasCloser={false}
+          block={false}
+          onClose={() => {
+            setIsToastOpened(false);
+          }}
+          autoCloseDelay={1500}
+        />
+
         <Button
+          ref={button}
           size="m"
           view="primary"
           disabled={disabled}
           onClick={handleSubmit}
           dataTestId="button"
-          loading={isLoading}
         >
           В корзину
         </Button>
