@@ -6,6 +6,7 @@ import { useAppSelector } from '../../store';
 import { selectCartItems, selectTotalCartCost } from '../../store/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { Amount } from '@alfalab/core-components/amount';
+import { ArrowForwardMIcon } from '@alfalab/icons-glyph/ArrowForwardMIcon';
 
 type CartDrawerProps = {
   onClose: () => void;
@@ -36,9 +37,7 @@ function CartDrawer({ onClose }: CartDrawerProps) {
           <Button
             view="primary"
             onClick={handleButtonClick}
-            rightAddons={
-              <Amount value={totalCost} currency="RUR" minority={1} />
-            }
+            rightAddons={<ArrowForwardMIcon />}
             block
           >
             Оформить заказ

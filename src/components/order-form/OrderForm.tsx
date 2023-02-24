@@ -4,6 +4,7 @@ import { RadioGroup } from '@alfalab/core-components/radio-group';
 import { Tag } from '@alfalab/core-components/tag';
 import { Amount } from '@alfalab/core-components/amount';
 import { Textarea } from '@alfalab/core-components/textarea';
+import { PhoneInput } from '@alfalab/core-components/phone-input';
 
 import { NavigationProfileMIcon } from '@alfalab/icons-glyph/NavigationProfileMIcon';
 import { MailMIcon } from '@alfalab/icons-glyph/MailMIcon';
@@ -14,12 +15,87 @@ import { Checkbox } from '@alfalab/core-components/checkbox';
 import { GiftBoxMIcon } from '@alfalab/icons-glyph/GiftBoxMIcon';
 import { CreditCardMIcon } from '@alfalab/icons-glyph/CreditCardMIcon';
 import { Button } from '@alfalab/core-components/button';
+import { ChangeEvent, useState } from 'react';
 
 const ICON_COLOR = '#aaa';
 
+type FormValues = {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  delivery: 'russia' | 'courier' | 'pickup';
+  promo: string;
+  isAgreed: boolean;
+  comment: string;
+  payment: 'card' | 'promo';
+};
+
+const initialValues: FormValues = {
+  name: '',
+  email: '',
+  phone: '',
+  address: '',
+  delivery: 'russia',
+  promo: '',
+  isAgreed: false,
+  comment: '',
+  payment: 'card',
+};
+
+type FormErrors = Record<keyof FormValues, boolean | undefined>;
+
+const initialErrors: FormErrors = {
+  name: undefined,
+  email: undefined,
+  phone: undefined,
+  address: undefined,
+  delivery: undefined,
+  promo: undefined,
+  isAgreed: undefined,
+  comment: undefined,
+  payment: undefined,
+};
+
 function OrderForm() {
+  const [values, setValues] = useState<FormValues>(initialValues);
+  const [errors, setErrors] = useState<FormErrors>(initialErrors);
+
+  const handleChangeInput = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    payload: { value: string },
+  ) => {
+    const name = event.target.name;
+  };
+
+  const handleChangeRadioGroup = (
+    event?:
+      | ChangeEvent<Element>
+      | React.MouseEvent<Element, MouseEvent>
+      | undefined,
+    payload?:
+      | {
+          value: string;
+          name?: string | undefined;
+        }
+      | undefined,
+  ) => {
+    const name = payload?.name;
+  };
+
+  const handleChangeCheckbox = (
+    event?: ChangeEvent<HTMLInputElement> | undefined,
+    payload?: { checked: boolean; name?: string | undefined } | undefined,
+  ) => {
+    const name = payload?.name;
+  };
+
+  const handleSubmit = () => {
+    console.log('submitted');
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Space direction="vertical" fullWidth size={32}>
         <Input
           label="ФИО"
@@ -27,30 +103,30 @@ function OrderForm() {
           block
           type="text"
           leftAddons={<NavigationProfileMIcon color={ICON_COLOR} />}
+          value={values.name}
+          error={errors.name}
+          onChange={handleChangeInput}
         />
 
         <Input
-          label="e-mail"
+          label="E-mail"
           name="email"
           block
           type="email"
           leftAddons={<MailMIcon color={ICON_COLOR} />}
+          value={values.email}
+          error={errors.email}
+          onChange={handleChangeInput}
         />
 
-        <Input
+        <PhoneInput
           label="Телефон"
           name="phone"
           block
-          type="tel"
           leftAddons={<PhoneMIcon color={ICON_COLOR} />}
-        />
-
-        <Input
-          label="Адрес"
-          name="address"
-          block
-          hint="Если вы выбрали самовывоз — оставьте поле пустым"
-          leftAddons={<HousesMIcon color={ICON_COLOR} />}
+          value={values.phone}
+          error={errors.phone}
+          onChange={handleChangeInput}
         />
 
         <RadioGroup
@@ -58,6 +134,9 @@ function OrderForm() {
           direction="horizontal"
           type="tag"
           name="delivery"
+          value={values.delivery}
+          error={errors.delivery}
+          onChange={handleChangeRadioGroup}
         >
           <Tag
             value="russia"
@@ -67,7 +146,7 @@ function OrderForm() {
             Доставка по России
           </Tag>
           <Tag
-            value="coutier"
+            value="courier"
             size="xs"
             rightAddons={
               <Amount
@@ -93,16 +172,26 @@ function OrderForm() {
           </Tag>
         </RadioGroup>
 
-        <Input
-          label="Промокод"
-          name="promo"
+        {(values.delivery === 'russia' || values.delivery === 'courier') && (
+          <Input
+            label="Адрес"
+            name="address"
+            block
+            leftAddons={<HousesMIcon color={ICON_COLOR} />}
+            value={values.address}
+            error={errors.address}
+            onChange={handleChangeInput}
+          />
+        )}
+
+        <Textarea
+          label="Комментарий к заказу"
+          name="comment"
           block
-          leftAddons={<GiftBoxMIcon color={ICON_COLOR} />}
+          value={values.comment}
+          error={errors.comment}
+          onChange={handleChangeInput}
         />
-
-        <Checkbox label="Согласен с политикой конфиденциальности и обработки персональных данных" />
-
-        <Textarea label="Комментарий к заказку" name="text" block />
 
         <RadioGroup
           label="Способ оплаты"
@@ -110,6 +199,9 @@ function OrderForm() {
           direction="horizontal"
           type="tag"
           name="payment"
+          value={values.payment}
+          error={errors.payment}
+          onChange={handleChangeRadioGroup}
         >
           <Tag value="card" size="xs" leftAddons={<CreditCardMIcon />}>
             Банковская карта
@@ -119,6 +211,24 @@ function OrderForm() {
           </Tag>
         </RadioGroup>
 
+        {values.payment === 'promo' && (
+          <Input
+            label="Промокод"
+            name="promo"
+            block
+            leftAddons={<GiftBoxMIcon color={ICON_COLOR} />}
+            value={values.promo}
+            error={errors.promo}
+            onChange={handleChangeInput}
+          />
+        )}
+
+        <Checkbox
+          label="Согласен с политикой конфиденциальности и обработки персональных данных"
+          checked={values.isAgreed}
+          error={errors.isAgreed}
+          onChange={handleChangeCheckbox}
+        />
         <Button view="primary">Продолжить оформление</Button>
       </Space>
     </form>
