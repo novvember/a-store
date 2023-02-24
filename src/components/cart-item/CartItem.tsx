@@ -11,7 +11,7 @@ import { AddCircleMIcon } from '@alfalab/icons-glyph/AddCircleMIcon';
 import { TrashCanMIcon } from '@alfalab/icons-glyph/TrashCanMIcon';
 import { useAppDispatch } from '../../store';
 import {
-  drawerToggled,
+  drawerClosed,
   itemDeleted,
   itemMinused,
   itemPlused,
@@ -47,7 +47,7 @@ function CartItem({ item }: CartItemProps) {
   };
 
   const handleTitleClick = () => {
-    dispatch(drawerToggled());
+    dispatch(drawerClosed());
   };
 
   return (

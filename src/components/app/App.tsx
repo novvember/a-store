@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import CartPage from '../cart-page/CartPage';
 import CreatePage from '../create-page/CreatePage';
 import Item from '../item/Item';
 import Main from '../main/Main';
@@ -47,7 +48,14 @@ function App() {
 
       <Route path="/contact" element={<Page>Контакты</Page>} />
 
-      <Route path="/cart" element={<Page>Корзина</Page>} />
+      <Route
+        path="/cart"
+        element={
+          <Page>
+            <CartPage />
+          </Page>
+        }
+      />
 
       <Route
         path="*"

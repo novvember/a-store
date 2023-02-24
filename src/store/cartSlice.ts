@@ -38,6 +38,9 @@ const cartSlice = createSlice({
     drawerToggled(state) {
       state.isOpened = !state.isOpened;
     },
+    drawerClosed(state) {
+      state.isOpened = false;
+    },
     itemAdded(state, action: PayloadAction<CartItem>) {
       const sameItem = state.items.find((item) =>
         compareCartItems(item, action.payload),
@@ -96,6 +99,7 @@ const cartSlice = createSlice({
 
 export const {
   drawerToggled,
+  drawerClosed,
   itemAdded,
   itemDeleted,
   itemPlused,
