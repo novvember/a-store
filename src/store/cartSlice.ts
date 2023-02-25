@@ -26,7 +26,7 @@ const initialState: CartSlice = savedState ?? defaultState;
 
 export const createOrder = createAsyncThunk(
   'cart/createOrder',
-  async (payload) => {
+  async (payload: unknown) => {
     return await api.createOrder(payload);
   },
 );

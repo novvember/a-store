@@ -10,15 +10,21 @@ import { NavigationProfileMIcon } from '@alfalab/icons-glyph/NavigationProfileMI
 import { MailMIcon } from '@alfalab/icons-glyph/MailMIcon';
 import { PhoneMIcon } from '@alfalab/icons-glyph/PhoneMIcon';
 import { HousesMIcon } from '@alfalab/icons-glyph/HousesMIcon';
-import { Typography } from '@alfalab/core-components/typography';
 import { Checkbox } from '@alfalab/core-components/checkbox';
 import { GiftBoxMIcon } from '@alfalab/icons-glyph/GiftBoxMIcon';
 import { CreditCardMIcon } from '@alfalab/icons-glyph/CreditCardMIcon';
 import { Button } from '@alfalab/core-components/button';
+import { Alert } from '@alfalab/core-components/alert';
 
 import { useForm, Controller } from 'react-hook-form';
-import { useAppSelector } from '../../store';
-import { selectTotalCartCost } from '../../store/cartSlice';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useAppDispatch, useAppSelector } from '../../store';
+import {
+  createOrder,
+  selectCartStatus,
+  selectTotalCartCost,
+} from '../../store/cartSlice';
 
 const ICON_COLOR = '#aaa';
 
@@ -26,25 +32,55 @@ type FormValues = {
   name: string;
   email: string;
   phone: string;
-  address: string;
   delivery: 'russia' | 'courier' | 'pickup';
-  promo: string;
-  isAgreed: boolean;
+  address: string;
   comment: string;
   payment: 'card' | 'promo';
+  promo: string;
+  isAgreed: boolean;
 };
 
 const defaultValues: FormValues = {
   name: '',
   email: '',
   phone: '',
-  address: '',
   delivery: 'russia',
-  promo: '',
-  isAgreed: false,
+  address: '',
   comment: '',
   payment: 'card',
+  promo: '',
+  isAgreed: false,
 };
+
+const schema = yup
+  .object({
+    name: yup.string().required('Введите имя'),
+    email: yup
+      .string()
+      .email('Неверный формат электронной почты')
+      .required('Введите адрес электронной почты для связи'),
+    phone: yup
+      .string()
+      .trim()
+      .matches(/\+7\s\d{3}\s\d{3}-\d{2}-\d{2}/, 'Неверный номер телефона')
+      .required('Введите номер мобильного телефона для связи'),
+    delivery: yup.string().oneOf(['russia', 'courier', 'pickup']).required(),
+    address: yup.string().when('delivery', {
+      is: (value: string) => ['russia', 'courier'].includes(value),
+      then: (schema) =>
+        schema.required('Введите адрес, по которому доставим товары'),
+    }),
+    comment: yup.string(),
+    payment: yup.string().oneOf(['card', 'promo']).required(),
+    promo: yup.string().when('payment', {
+      is: 'promo',
+      then: (schema) => schema.required(),
+    }),
+    isAgreed: yup
+      .boolean()
+      .oneOf([true], 'Для оформления заказа необходимо согласие'),
+  })
+  .required();
 
 const extraCosts: Record<string, number> = {
   russia: 350,
@@ -53,14 +89,18 @@ const extraCosts: Record<string, number> = {
 };
 
 function OrderForm() {
+  const dispatch = useAppDispatch();
+  const status = useAppSelector(selectCartStatus);
+
   const { control, handleSubmit, watch } = useForm({
     defaultValues,
+    resolver: yupResolver(schema),
   });
 
   const totalCost = useAppSelector(selectTotalCartCost);
 
-  const onSubmit = (data: unknown) => {
-    console.log(data);
+  const onSubmit = (data: FormValues) => {
+    dispatch(createOrder(data));
   };
 
   return (
@@ -70,10 +110,9 @@ function OrderForm() {
         <Controller
           name="name"
           control={control}
-          rules={{ required: true }}
           render={({
             field: { onChange, value, name },
-            fieldState: { invalid },
+            fieldState: { error },
           }) => (
             <Input
               label="ФИО"
@@ -83,7 +122,7 @@ function OrderForm() {
               name={name}
               value={value}
               onChange={onChange}
-              error={invalid}
+              error={error?.message}
             />
           )}
         />
@@ -92,10 +131,9 @@ function OrderForm() {
         <Controller
           name="email"
           control={control}
-          rules={{ required: true }}
           render={({
             field: { onChange, value, name },
-            fieldState: { invalid },
+            fieldState: { error },
           }) => (
             <Input
               label="E-mail"
@@ -105,7 +143,7 @@ function OrderForm() {
               name={name}
               value={value}
               onChange={onChange}
-              error={invalid}
+              error={error?.message}
             />
           )}
         />
@@ -114,10 +152,9 @@ function OrderForm() {
         <Controller
           name="phone"
           control={control}
-          rules={{ required: true }}
           render={({
             field: { onChange, value, name },
-            fieldState: { invalid },
+            fieldState: { error },
           }) => (
             <PhoneInput
               label="Телефон"
@@ -126,7 +163,7 @@ function OrderForm() {
               name={name}
               value={value}
               onChange={onChange}
-              error={invalid}
+              error={error?.message}
             />
           )}
         />
@@ -135,7 +172,6 @@ function OrderForm() {
         <Controller
           name="delivery"
           control={control}
-          rules={{ required: true }}
           render={({
             field: { onChange, value, name },
             fieldState: { invalid },
@@ -179,9 +215,11 @@ function OrderForm() {
                 value="pickup"
                 size="xs"
                 rightAddons={
-                  <Typography.Text view="secondary-small">
-                    (пр-т Андропова, 18, корп. 3)
-                  </Typography.Text>
+                  <Amount
+                    value={extraCosts.pickup}
+                    currency="RUR"
+                    minority={1}
+                  />
                 }
               >
                 Самовывоз
@@ -190,16 +228,21 @@ function OrderForm() {
           )}
         />
 
+        {watch('delivery') === 'pickup' && (
+          <Alert title="Адрес для самовывоза">
+            пр-т Андропова, 18, корп. 3, Москва
+          </Alert>
+        )}
+
         {/* Address */}
         {(watch('delivery') === 'russia' ||
           watch('delivery') === 'courier') && (
           <Controller
             name="address"
             control={control}
-            rules={{ required: true }}
             render={({
               field: { onChange, value, name },
-              fieldState: { invalid },
+              fieldState: { error },
             }) => (
               <Input
                 label="Адрес"
@@ -208,7 +251,7 @@ function OrderForm() {
                 name={name}
                 value={value}
                 onChange={onChange}
-                error={invalid}
+                error={error?.message}
               />
             )}
           />
@@ -237,7 +280,6 @@ function OrderForm() {
         <Controller
           name="payment"
           control={control}
-          rules={{ required: true }}
           render={({
             field: { onChange, value, name },
             fieldState: { invalid },
@@ -267,7 +309,6 @@ function OrderForm() {
           <Controller
             name="promo"
             control={control}
-            rules={{ required: true }}
             render={({
               field: { onChange, value, name },
               fieldState: { invalid },
@@ -289,16 +330,15 @@ function OrderForm() {
         <Controller
           name="isAgreed"
           control={control}
-          rules={{ required: true }}
           render={({
             field: { onChange, value, name },
-            fieldState: { invalid },
+            fieldState: { error },
           }) => (
             <Checkbox
               label="Согласен с политикой конфиденциальности и обработки персональных данных"
               name={name}
               checked={value}
-              error={invalid && 'Для оформления заказа необходимо согласие'}
+              error={error?.message}
               onChange={(_, payload) => onChange(payload?.checked)}
             />
           )}
@@ -307,6 +347,7 @@ function OrderForm() {
         <Button
           view="primary"
           type="submit"
+          loading={status === 'loading'}
           rightAddons={
             <Amount
               value={totalCost + extraCosts[watch('delivery')]}
