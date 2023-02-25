@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import Item from './Item';
+import ItemPage from './ItemPage';
 
 describe('Item component', () => {
-  render(<Item />);
+  render(<ItemPage />);
 
   it('should render properly', async () => {
     const item = await screen.findAllByTestId('item');

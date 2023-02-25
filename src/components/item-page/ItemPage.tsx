@@ -1,6 +1,6 @@
 import { Space } from '@alfalab/core-components/space';
 import { useParams } from 'react-router-dom';
-import './Item.css';
+import './ItemPage.css';
 import { Typography } from '@alfalab/core-components/typography';
 import Gallery from '../gallery/Gallery';
 import AddToCartForm from '../add-to-cart-form/AddToCartForm';
@@ -10,8 +10,9 @@ import Loader from '../loader/Loader';
 import ErrorMessage from '../error-message/ErrorMessage';
 import { FullProduct } from '../../types/product';
 import { Amount } from '@alfalab/core-components/amount';
+import Page from '../page/Page';
 
-function Item() {
+function ItemPage() {
   const { id } = useParams();
   const [product, setProduct] = useState<FullProduct | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -43,7 +44,7 @@ function Item() {
   const { images, title, price, description } = product;
 
   return (
-    <>
+    <Page>
       <Space direction="horizontal" className="item" dataTestId="item">
         <Gallery images={images} title={title} />
 
@@ -76,8 +77,8 @@ function Item() {
           </Typography.Text>
         </Space>
       </Space>
-    </>
+    </Page>
   );
 }
 
-export default Item;
+export default ItemPage;

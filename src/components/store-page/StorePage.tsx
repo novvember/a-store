@@ -12,8 +12,9 @@ import {
   selectStoreStatus,
 } from '../../store/storeSlice';
 import ErrorMessage from '../error-message/ErrorMessage';
+import Page from '../page/Page';
 
-function Store() {
+function StorePage() {
   const dispatch = useAppDispatch();
   const cards = useAppSelector(selectAllStoreItems);
   const status = useAppSelector(selectStoreStatus);
@@ -26,7 +27,7 @@ function Store() {
   }, [dispatch, status]);
 
   return (
-    <>
+    <Page>
       <SectionHeader
         title="Сделано в Альфе"
         subtitle="Хотим каждую из этих вещей! Себе, родным и друзьям"
@@ -46,8 +47,8 @@ function Store() {
           ))}
         </Space>
       )}
-    </>
+    </Page>
   );
 }
 
-export default Store;
+export default StorePage;
