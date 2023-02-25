@@ -15,7 +15,8 @@ import { Checkbox } from '@alfalab/core-components/checkbox';
 import { GiftBoxMIcon } from '@alfalab/icons-glyph/GiftBoxMIcon';
 import { CreditCardMIcon } from '@alfalab/icons-glyph/CreditCardMIcon';
 import { Button } from '@alfalab/core-components/button';
-import { ChangeEvent, useState } from 'react';
+
+import { useForm, Controller } from 'react-hook-form';
 
 const ICON_COLOR = '#aaa';
 
@@ -31,7 +32,7 @@ type FormValues = {
   payment: 'card' | 'promo';
 };
 
-const initialValues: FormValues = {
+const defaultValues: FormValues = {
   name: '',
   email: '',
   phone: '',
@@ -43,200 +44,254 @@ const initialValues: FormValues = {
   payment: 'card',
 };
 
-type FormErrors = Record<keyof FormValues, boolean | undefined>;
-
-const initialErrors: FormErrors = {
-  name: undefined,
-  email: undefined,
-  phone: undefined,
-  address: undefined,
-  delivery: undefined,
-  promo: undefined,
-  isAgreed: undefined,
-  comment: undefined,
-  payment: undefined,
-};
-
 function OrderForm() {
-  const [values, setValues] = useState<FormValues>(initialValues);
-  const [errors, setErrors] = useState<FormErrors>(initialErrors);
+  const { control, handleSubmit, watch } = useForm({
+    defaultValues,
+  });
 
-  const handleChangeInput = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    payload: { value: string },
-  ) => {
-    const name = event.target.name as keyof FormValues;
-    const value = event.target.value;
-    setValues((values) => ({ ...values, [name]: value }));
-  };
-
-  const handleChangeRadioGroup = (
-    event?:
-      | ChangeEvent<Element>
-      | React.MouseEvent<Element, MouseEvent>
-      | undefined,
-    payload?:
-      | {
-          value: string;
-          name?: string | undefined;
-        }
-      | undefined,
-  ) => {
-    const name = payload?.name as keyof FormValues;
-    const value = payload?.value!;
-    setValues((values) => ({ ...values, [name]: value }));
-  };
-
-  const handleChangeCheckbox = (
-    event?: ChangeEvent<HTMLInputElement> | undefined,
-    payload?: { checked: boolean; name?: string | undefined } | undefined,
-  ) => {
-    const name = payload?.name as keyof FormValues;
-    const value = payload?.checked;
-    setValues((values) => ({ ...values, [name]: value }));
-  };
-
-  const handleSubmit = () => {
-    console.log('submitted');
+  const onSubmit = (data: unknown) => {
+    console.log(data);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Space direction="vertical" fullWidth size={32}>
-        <Input
-          label="ФИО"
+        {/* ФИО */}
+        <Controller
           name="name"
-          block
-          type="text"
-          leftAddons={<NavigationProfileMIcon color={ICON_COLOR} />}
-          value={values.name}
-          error={errors.name}
-          onChange={handleChangeInput}
+          control={control}
+          rules={{ required: true }}
+          render={({
+            field: { onChange, value, name },
+            fieldState: { invalid },
+          }) => (
+            <Input
+              label="ФИО"
+              block
+              type="text"
+              leftAddons={<NavigationProfileMIcon color={ICON_COLOR} />}
+              name={name}
+              value={value}
+              onChange={onChange}
+              error={invalid}
+            />
+          )}
         />
 
-        <Input
-          label="E-mail"
+        {/* E-mail */}
+        <Controller
           name="email"
-          block
-          type="email"
-          leftAddons={<MailMIcon color={ICON_COLOR} />}
-          value={values.email}
-          error={errors.email}
-          onChange={handleChangeInput}
+          control={control}
+          rules={{ required: true }}
+          render={({
+            field: { onChange, value, name },
+            fieldState: { invalid },
+          }) => (
+            <Input
+              label="E-mail"
+              block
+              type="text"
+              leftAddons={<MailMIcon color={ICON_COLOR} />}
+              name={name}
+              value={value}
+              onChange={onChange}
+              error={invalid}
+            />
+          )}
         />
 
-        <PhoneInput
-          label="Телефон"
+        {/* Phone */}
+        <Controller
           name="phone"
-          block
-          leftAddons={<PhoneMIcon color={ICON_COLOR} />}
-          value={values.phone}
-          error={errors.phone}
-          onChange={handleChangeInput}
+          control={control}
+          rules={{ required: true }}
+          render={({
+            field: { onChange, value, name },
+            fieldState: { invalid },
+          }) => (
+            <PhoneInput
+              label="Телефон"
+              block
+              leftAddons={<PhoneMIcon color={ICON_COLOR} />}
+              name={name}
+              value={value}
+              onChange={onChange}
+              error={invalid}
+            />
+          )}
         />
 
-        <RadioGroup
-          label="Доставка"
-          direction="horizontal"
-          type="tag"
+        {/* Delivery */}
+        <Controller
           name="delivery"
-          value={values.delivery}
-          error={errors.delivery}
-          onChange={handleChangeRadioGroup}
-        >
-          <Tag
-            value="russia"
-            size="xs"
-            rightAddons={<Amount value={350} currency="RUR" minority={1} />}
-          >
-            Доставка по России
-          </Tag>
-          <Tag
-            value="courier"
-            size="xs"
-            rightAddons={
-              <Amount
-                view="withZeroMinorPart"
-                value={300}
-                currency="RUR"
-                minority={1}
-              />
-            }
-          >
-            Курьером по Москве
-          </Tag>
-          <Tag
-            value="pickup"
-            size="xs"
-            rightAddons={
-              <Typography.Text view="secondary-small">
-                (пр-т Андропова, 18, корп. 3)
-              </Typography.Text>
-            }
-          >
-            Самовывоз
-          </Tag>
-        </RadioGroup>
+          control={control}
+          rules={{ required: true }}
+          render={({
+            field: { onChange, value, name },
+            fieldState: { invalid },
+          }) => (
+            <RadioGroup
+              label="Доставка"
+              direction="horizontal"
+              type="tag"
+              name={name}
+              value={value}
+              onChange={(_, payload) => onChange(payload?.value)}
+              error={invalid}
+            >
+              <Tag
+                value="russia"
+                size="xs"
+                rightAddons={<Amount value={350} currency="RUR" minority={1} />}
+              >
+                Доставка по России
+              </Tag>
+              <Tag
+                value="courier"
+                size="xs"
+                rightAddons={
+                  <Amount
+                    view="withZeroMinorPart"
+                    value={300}
+                    currency="RUR"
+                    minority={1}
+                  />
+                }
+              >
+                Курьером по Москве
+              </Tag>
+              <Tag
+                value="pickup"
+                size="xs"
+                rightAddons={
+                  <Typography.Text view="secondary-small">
+                    (пр-т Андропова, 18, корп. 3)
+                  </Typography.Text>
+                }
+              >
+                Самовывоз
+              </Tag>
+            </RadioGroup>
+          )}
+        />
 
-        {(values.delivery === 'russia' || values.delivery === 'courier') && (
-          <Input
-            label="Адрес"
+        {/* Address */}
+        {(watch('delivery') === 'russia' ||
+          watch('delivery') === 'courier') && (
+          <Controller
             name="address"
-            block
-            leftAddons={<HousesMIcon color={ICON_COLOR} />}
-            value={values.address}
-            error={errors.address}
-            onChange={handleChangeInput}
+            control={control}
+            rules={{ required: true }}
+            render={({
+              field: { onChange, value, name },
+              fieldState: { invalid },
+            }) => (
+              <Input
+                label="Адрес"
+                block
+                leftAddons={<HousesMIcon color={ICON_COLOR} />}
+                name={name}
+                value={value}
+                onChange={onChange}
+                error={invalid}
+              />
+            )}
           />
         )}
 
-        <Textarea
-          label="Комментарий к заказу"
+        {/* Cooment */}
+        <Controller
           name="comment"
-          block
-          value={values.comment}
-          error={errors.comment}
-          onChange={handleChangeInput}
+          control={control}
+          render={({
+            field: { onChange, value, name },
+            fieldState: { invalid },
+          }) => (
+            <Textarea
+              label="Комментарий к заказу"
+              block
+              name={name}
+              value={value}
+              onChange={onChange}
+              error={invalid}
+            />
+          )}
         />
 
-        <RadioGroup
-          label="Способ оплаты"
-          hint="Выберите способ оплаты „Промокод“, если ваш заказ не превышает сумму промокода. Если больше — выберите оплату картой"
-          direction="horizontal"
-          type="tag"
+        {/* Payment */}
+        <Controller
           name="payment"
-          value={values.payment}
-          error={errors.payment}
-          onChange={handleChangeRadioGroup}
-        >
-          <Tag value="card" size="xs" leftAddons={<CreditCardMIcon />}>
-            Банковская карта
-          </Tag>
-          <Tag value="promo" size="xs" leftAddons={<GiftBoxMIcon />}>
-            Промокод
-          </Tag>
-        </RadioGroup>
+          control={control}
+          rules={{ required: true }}
+          render={({
+            field: { onChange, value, name },
+            fieldState: { invalid },
+          }) => (
+            <RadioGroup
+              label="Способ оплаты"
+              hint="Выберите способ оплаты „Промокод“, если ваш заказ не превышает сумму промокода. Если больше — выберите оплату картой"
+              direction="horizontal"
+              type="tag"
+              name={name}
+              value={value}
+              error={invalid}
+              onChange={(_, payload) => onChange(payload?.value)}
+            >
+              <Tag value="card" size="xs" leftAddons={<CreditCardMIcon />}>
+                Банковская карта
+              </Tag>
+              <Tag value="promo" size="xs" leftAddons={<GiftBoxMIcon />}>
+                Промокод
+              </Tag>
+            </RadioGroup>
+          )}
+        />
 
-        {values.payment === 'promo' && (
-          <Input
-            label="Промокод"
+        {/* Promo */}
+        {watch('payment') === 'promo' && (
+          <Controller
             name="promo"
-            block
-            leftAddons={<GiftBoxMIcon color={ICON_COLOR} />}
-            value={values.promo}
-            error={errors.promo}
-            onChange={handleChangeInput}
+            control={control}
+            rules={{ required: true }}
+            render={({
+              field: { onChange, value, name },
+              fieldState: { invalid },
+            }) => (
+              <Input
+                label="Промокод"
+                block
+                leftAddons={<GiftBoxMIcon color={ICON_COLOR} />}
+                name={name}
+                value={value}
+                onChange={onChange}
+                error={invalid}
+              />
+            )}
           />
         )}
 
-        <Checkbox
-          label="Согласен с политикой конфиденциальности и обработки персональных данных"
+        {/*isAgreed */}
+        <Controller
           name="isAgreed"
-          checked={values.isAgreed}
-          error={errors.isAgreed}
-          onChange={handleChangeCheckbox}
+          control={control}
+          rules={{ required: true }}
+          render={({
+            field: { onChange, value, name },
+            fieldState: { invalid },
+          }) => (
+            <Checkbox
+              label="Согласен с политикой конфиденциальности и обработки персональных данных"
+              name={name}
+              checked={value}
+              error={invalid && 'Для оформления заказа необходимо согласие'}
+              onChange={(_, payload) => onChange(payload?.checked)}
+            />
+          )}
         />
-        <Button view="primary">Продолжить оформление</Button>
+
+        <Button view="primary" type="submit">
+          Продолжить оформление
+        </Button>
       </Space>
     </form>
   );
