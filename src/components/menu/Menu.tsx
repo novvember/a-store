@@ -1,6 +1,9 @@
 import { Space } from '@alfalab/core-components/space';
 import { Typography } from '@alfalab/core-components/typography';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { Badge } from '@alfalab/core-components/badge';
+import { useAppSelector } from '../../store';
+import { selectCartCount } from '../../store/cartSlice';
 
 type MenuItem = {
   title: string;
@@ -31,20 +34,34 @@ type MenuProps = {
 };
 
 function Menu({ onClick }: MenuProps) {
+  const cartCount = useAppSelector(selectCartCount);
+
   return (
     <nav>
       <Space>
         {MENU_ITEMS.map((item) => (
-          <Link
-            to={item.to}
-            key={item.title}
-            className="menu__link"
-            onClick={onClick}
-          >
-            <Typography.Title view="medium" tag="div" color="primary-inverted">
-              {item.title}
-            </Typography.Title>
-          </Link>
+          <NavLink to={item.to} key={item.title} onClick={onClick}>
+            {({ isActive }) => {
+              if (item.title === 'Корзина' && cartCount < 1) {
+                return null;
+              }
+
+              return (
+                <Space direction="horizontal" align="center">
+                  <Typography.Title
+                    view="medium"
+                    tag="div"
+                    color={isActive ? 'accent' : 'primary-inverted'}
+                  >
+                    {item.title}
+                  </Typography.Title>
+                  {item.title === 'Корзина' && (
+                    <Badge view="count" content={cartCount} height={24} />
+                  )}
+                </Space>
+              );
+            }}
+          </NavLink>
         ))}
       </Space>
     </nav>

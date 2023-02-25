@@ -4,12 +4,16 @@ import { SupermarketTrolleyMIcon } from '@alfalab/icons-glyph/SupermarketTrolley
 
 import './CartButton.css';
 import classNames from 'classnames';
+import { Badge } from '@alfalab/core-components/badge';
+import { useLocation } from 'react-router-dom';
 
 function CartButton() {
   const dispatch = useAppDispatch();
   const cartCount = useAppSelector(selectCartCount);
 
-  const isVisible = cartCount > 0;
+  const location = useLocation();
+
+  const isVisible = cartCount > 0 && !location.pathname.includes('cart');
 
   const handleClick = () => {
     dispatch(drawerToggled());
@@ -24,7 +28,13 @@ function CartButton() {
     >
       <span className="cart-button__icon" />
       <SupermarketTrolleyMIcon color="#fff" />
-      <span className="cart-button__count">{cartCount}</span>
+      <Badge
+        view="count"
+        content={cartCount}
+        height={24}
+        className="cart-button__count"
+        visibleIconOutline
+      />
     </button>
   );
 }
