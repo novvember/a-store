@@ -12,7 +12,6 @@ import {
   selectStoreStatus,
 } from '../../store/storeSlice';
 import ErrorMessage from '../error-message/ErrorMessage';
-import Page from '../page/Page';
 
 function StorePage() {
   const dispatch = useAppDispatch();
@@ -27,7 +26,7 @@ function StorePage() {
   }, [dispatch, status]);
 
   return (
-    <Page>
+    <>
       <SectionHeader
         title="Сделано в Альфе"
         subtitle="Хотим каждую из этих вещей! Себе, родным и друзьям"
@@ -47,7 +46,7 @@ function StorePage() {
           ))}
         </Space>
       )}
-    </Page>
+    </>
   );
 }
 

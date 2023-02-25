@@ -1,7 +1,6 @@
 import { Space } from '@alfalab/core-components/space';
 import { Typography } from '@alfalab/core-components/typography';
 import { List } from '@alfalab/core-components/list';
-import Page from '../page/Page';
 import SectionHeader from '../section-header/SectionHeader';
 import { Link } from '@alfalab/core-components/link';
 import { Collapse } from '@alfalab/core-components/collapse';
@@ -13,7 +12,7 @@ import { Divider } from '@alfalab/core-components/divider';
 
 function ContactsPage() {
   return (
-    <Page>
+    <>
       <SectionHeader type="primary" title="Контакты" subtitle="" />
 
       <Space direction="vertical" size="s" fullWidth>
@@ -360,7 +359,7 @@ function ContactsPage() {
           </Space>
         </Collapse>
       </Space>
-    </Page>
+    </>
   );
 }
 

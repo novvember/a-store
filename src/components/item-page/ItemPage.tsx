@@ -10,7 +10,6 @@ import Loader from '../loader/Loader';
 import ErrorMessage from '../error-message/ErrorMessage';
 import { FullProduct } from '../../types/product';
 import { Amount } from '@alfalab/core-components/amount';
-import Page from '../page/Page';
 
 function ItemPage() {
   const { id } = useParams();
@@ -44,40 +43,38 @@ function ItemPage() {
   const { images, title, price, description } = product;
 
   return (
-    <Page>
-      <Space direction="horizontal" className="item" dataTestId="item">
-        <Gallery images={images} title={title} />
+    <Space direction="horizontal" className="item" dataTestId="item">
+      <Gallery images={images} title={title} />
 
-        <Space>
-          <Typography.TitleResponsive
-            tag="h2"
-            view="small"
-            dataTestId="item-title"
-          >
-            {title}
-          </Typography.TitleResponsive>
+      <Space>
+        <Typography.TitleResponsive
+          tag="h2"
+          view="small"
+          dataTestId="item-title"
+        >
+          {title}
+        </Typography.TitleResponsive>
 
-          <Typography.Text
-            view="primary-large"
-            weight="bold"
-            color="accent"
-            dataTestId="price"
-          >
-            <Amount value={price} currency="RUR" minority={1} />
-          </Typography.Text>
+        <Typography.Text
+          view="primary-large"
+          weight="bold"
+          color="accent"
+          dataTestId="price"
+        >
+          <Amount value={price} currency="RUR" minority={1} />
+        </Typography.Text>
 
-          <AddToCartForm product={product} />
+        <AddToCartForm product={product} />
 
-          <Typography.Text
-            view="secondary-large"
-            color="primary"
-            dataTestId="description"
-          >
-            {description}
-          </Typography.Text>
-        </Space>
+        <Typography.Text
+          view="secondary-large"
+          color="primary"
+          dataTestId="description"
+        >
+          {description}
+        </Typography.Text>
       </Space>
-    </Page>
+    </Space>
   );
 }
 

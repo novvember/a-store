@@ -1,7 +1,6 @@
 import { Space } from '@alfalab/core-components/space';
 import { Typography } from '@alfalab/core-components/typography';
 import { Link } from 'react-router-dom';
-import Page from '../page/Page';
 
 import './MainPage.css';
 
@@ -26,26 +25,24 @@ const LINKS: LinkType[] = [
 
 function MainPage() {
   return (
-    <Page>
-      <Space direction="horizontal" size={0} fullWidth>
-        {LINKS.map((link) => (
-          <Link
-            to={link.to}
-            key={link.title}
-            className={`main__link ${link.className}`}
+    <Space direction="horizontal" size={0} fullWidth>
+      {LINKS.map((link) => (
+        <Link
+          to={link.to}
+          key={link.title}
+          className={`main__link ${link.className}`}
+        >
+          <Typography.TitleResponsive
+            view="medium"
+            tag="h2"
+            color="primary"
+            weight="bold"
           >
-            <Typography.TitleResponsive
-              view="medium"
-              tag="h2"
-              color="primary"
-              weight="bold"
-            >
-              {link.title}
-            </Typography.TitleResponsive>
-          </Link>
-        ))}
-      </Space>
-    </Page>
+            {link.title}
+          </Typography.TitleResponsive>
+        </Link>
+      ))}
+    </Space>
   );
 }
 

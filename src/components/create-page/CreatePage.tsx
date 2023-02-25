@@ -10,7 +10,6 @@ import {
   selectCreateStatus,
 } from '../../store/createSlice';
 import ErrorMessage from '../error-message/ErrorMessage';
-import Page from '../page/Page';
 
 function CreatePage() {
   const dispatch = useAppDispatch();
@@ -25,7 +24,7 @@ function CreatePage() {
   }, [dispatch, status]);
 
   return (
-    <Page>
+    <>
       <SectionHeader
         title="Свой дизайн"
         subtitle="Выберите вещь, а затем — цвет, размер и стикер. Перенесём стикер на вещь как на фото"
@@ -38,7 +37,7 @@ function CreatePage() {
 
       {status === 'succeeded' &&
         groups.map((group) => <CardGroup group={group} key={group.id} />)}
-    </Page>
+    </>
   );
 }
 
