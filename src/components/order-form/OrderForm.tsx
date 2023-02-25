@@ -17,6 +17,8 @@ import { CreditCardMIcon } from '@alfalab/icons-glyph/CreditCardMIcon';
 import { Button } from '@alfalab/core-components/button';
 
 import { useForm, Controller } from 'react-hook-form';
+import { useAppSelector } from '../../store';
+import { selectTotalCartCost } from '../../store/cartSlice';
 
 const ICON_COLOR = '#aaa';
 
@@ -44,10 +46,18 @@ const defaultValues: FormValues = {
   payment: 'card',
 };
 
+const extraCosts: Record<string, number> = {
+  russia: 350,
+  courier: 300,
+  pickup: 0,
+};
+
 function OrderForm() {
   const { control, handleSubmit, watch } = useForm({
     defaultValues,
   });
+
+  const totalCost = useAppSelector(selectTotalCartCost);
 
   const onSubmit = (data: unknown) => {
     console.log(data);
@@ -142,7 +152,13 @@ function OrderForm() {
               <Tag
                 value="russia"
                 size="xs"
-                rightAddons={<Amount value={350} currency="RUR" minority={1} />}
+                rightAddons={
+                  <Amount
+                    value={extraCosts.russia}
+                    currency="RUR"
+                    minority={1}
+                  />
+                }
               >
                 Доставка по России
               </Tag>
@@ -151,8 +167,7 @@ function OrderForm() {
                 size="xs"
                 rightAddons={
                   <Amount
-                    view="withZeroMinorPart"
-                    value={300}
+                    value={extraCosts.courier}
                     currency="RUR"
                     minority={1}
                   />
@@ -289,7 +304,17 @@ function OrderForm() {
           )}
         />
 
-        <Button view="primary" type="submit">
+        <Button
+          view="primary"
+          type="submit"
+          rightAddons={
+            <Amount
+              value={totalCost + extraCosts[watch('delivery')]}
+              currency="RUR"
+              minority={1}
+            />
+          }
+        >
           Продолжить оформление
         </Button>
       </Space>
