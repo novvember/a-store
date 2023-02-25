@@ -1,4 +1,6 @@
 .cart-button {
+  transform: scale(0);
+  transition: transform ease-in-out 0.1s;
   position: absolute;
   bottom: calc(-1 * var(--gap-6xl));
   right: var(--gap-xl);
@@ -12,6 +14,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.cart-button_visible {
+  transform: scale(1);
 }
 
 .cart-button::before {

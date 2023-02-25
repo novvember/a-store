@@ -3,19 +3,25 @@ import { drawerToggled, selectCartCount } from '../../store/cartSlice';
 import { SupermarketTrolleyMIcon } from '@alfalab/icons-glyph/SupermarketTrolleyMIcon';
 
 import './CartButton.css';
+import classNames from 'classnames';
 
 function CartButton() {
   const dispatch = useAppDispatch();
   const cartCount = useAppSelector(selectCartCount);
 
-  if (!cartCount) return null;
+  const isVisible = cartCount > 0;
 
   const handleClick = () => {
     dispatch(drawerToggled());
   };
 
   return (
-    <button className="cart-button" onClick={handleClick}>
+    <button
+      className={classNames('cart-button', {
+        'cart-button_visible': isVisible,
+      })}
+      onClick={handleClick}
+    >
       <span className="cart-button__icon" />
       <SupermarketTrolleyMIcon color="#fff" />
       <span className="cart-button__count">{cartCount}</span>
