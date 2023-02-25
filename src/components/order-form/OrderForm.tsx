@@ -65,7 +65,9 @@ function OrderForm() {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     payload: { value: string },
   ) => {
-    const name = event.target.name;
+    const name = event.target.name as keyof FormValues;
+    const value = event.target.value;
+    setValues((values) => ({ ...values, [name]: value }));
   };
 
   const handleChangeRadioGroup = (
@@ -80,14 +82,18 @@ function OrderForm() {
         }
       | undefined,
   ) => {
-    const name = payload?.name;
+    const name = payload?.name as keyof FormValues;
+    const value = payload?.value!;
+    setValues((values) => ({ ...values, [name]: value }));
   };
 
   const handleChangeCheckbox = (
     event?: ChangeEvent<HTMLInputElement> | undefined,
     payload?: { checked: boolean; name?: string | undefined } | undefined,
   ) => {
-    const name = payload?.name;
+    const name = payload?.name as keyof FormValues;
+    const value = payload?.checked;
+    setValues((values) => ({ ...values, [name]: value }));
   };
 
   const handleSubmit = () => {
@@ -225,6 +231,7 @@ function OrderForm() {
 
         <Checkbox
           label="Согласен с политикой конфиденциальности и обработки персональных данных"
+          name="isAgreed"
           checked={values.isAgreed}
           error={errors.isAgreed}
           onChange={handleChangeCheckbox}
