@@ -268,6 +268,7 @@ function OrderForm() {
             <Textarea
               label="Комментарий к заказу"
               block
+              minRows={3}
               name={name}
               value={value}
               onChange={onChange}
