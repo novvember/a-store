@@ -25,6 +25,7 @@ import {
   selectCartStatus,
   selectTotalCartCost,
 } from '../../store/cartSlice';
+import PromocodeInput from '../promocode-input/PromocodeInput';
 
 const ICON_COLOR = '#aaa';
 
@@ -35,8 +36,8 @@ type FormValues = {
   delivery: 'russia' | 'courier' | 'pickup';
   address: string;
   comment: string;
-  payment: 'card' | 'promo';
-  promo: string;
+  payment: 'card' | 'promocode';
+  promocode: string;
   isAgreed: boolean;
 };
 
@@ -48,7 +49,7 @@ const defaultValues: FormValues = {
   address: '',
   comment: '',
   payment: 'card',
-  promo: '',
+  promocode: '',
   isAgreed: false,
 };
 
@@ -71,10 +72,11 @@ const schema = yup
         schema.required('Введите адрес, по которому доставим товары'),
     }),
     comment: yup.string(),
-    payment: yup.string().oneOf(['card', 'promo']).required(),
-    promo: yup.string().when('payment', {
-      is: 'promo',
-      then: (schema) => schema.required(),
+    payment: yup.string().oneOf(['card', 'promocode']).required(),
+    promocode: yup.string().when('payment', {
+      is: 'promocode',
+      then: (schema) =>
+        schema.required('Введите промокод или выберите другой способ оплаты'),
     }),
     isAgreed: yup
       .boolean()
@@ -298,7 +300,7 @@ function OrderForm() {
               <Tag value="card" size="xs" leftAddons={<CreditCardMIcon />}>
                 Банковская карта
               </Tag>
-              <Tag value="promo" size="xs" leftAddons={<GiftBoxMIcon />}>
+              <Tag value="promocode" size="xs" leftAddons={<GiftBoxMIcon />}>
                 Промокод
               </Tag>
             </RadioGroup>
@@ -306,22 +308,19 @@ function OrderForm() {
         />
 
         {/* Promo */}
-        {watch('payment') === 'promo' && (
+        {watch('payment') === 'promocode' && (
           <Controller
-            name="promo"
+            name="promocode"
             control={control}
             render={({
               field: { onChange, value, name },
-              fieldState: { invalid },
+              fieldState: { error },
             }) => (
-              <Input
-                label="Промокод"
-                block
-                leftAddons={<GiftBoxMIcon color={ICON_COLOR} />}
+              <PromocodeInput
                 name={name}
                 value={value}
                 onChange={onChange}
-                error={invalid}
+                errorMessage={error?.message}
               />
             )}
           />
