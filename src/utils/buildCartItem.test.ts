@@ -30,7 +30,7 @@ describe('buidCartItem', () => {
     expect(res).toBeTruthy();
     expect(res.description).toBeTruthy();
     expect(res.params).toBeTruthy();
-    expect(res.quantity).toBe(1);
+    expect(res.totalCount).toBe(1);
   });
 
   it('should return valid object if 2 params in product', () => {
@@ -39,7 +39,7 @@ describe('buidCartItem', () => {
     expect(res).toBeTruthy();
     expect(res.description).toBeTruthy();
     expect(res.params).toBeTruthy();
-    expect(res.quantity).toBe(1);
+    expect(res.totalCount).toBe(1);
   });
 
   describe('buidCartItem', () => {
@@ -49,7 +49,7 @@ describe('buidCartItem', () => {
       expect(res).toBeTruthy();
       expect(res.description).toBeTruthy();
       expect(res.params).toBeTruthy();
-      expect(res.quantity).toBe(1);
+      expect(res.totalCount).toBe(1);
     });
 
     it('should return valid object if 0 params in product', () => {
@@ -58,7 +58,7 @@ describe('buidCartItem', () => {
       expect(res).toBeTruthy();
       expect(res.description).toBeTruthy();
       expect(res.params).toBeTruthy();
-      expect(res.quantity).toBe(1);
+      expect(res.totalCount).toBe(1);
     });
   });
 });

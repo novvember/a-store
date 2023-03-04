@@ -30,14 +30,17 @@ import OrderConfirmedMessage from '../order-confirmed-message/OrderConfirmedMess
 
 const ICON_COLOR = '#aaa';
 
-type FormValues = {
+export type FormValues = {
   name: string;
   email: string;
   phone: string;
-  deliveryType: 'russia' | 'courier' | 'pickup';
+  deliveryType:
+    | 'Доставка по России — 350₽'
+    | 'Курьером по Москве — 300₽'
+    | 'Самовывоз (пр-т Андропова, 18 корп. 3)';
   address: string;
   comment: string;
-  paymentType: 'card' | 'promocode';
+  paymentType: 'Банковская карта' | 'Промокод';
   promocode: string;
   isAgreed: boolean;
 };
@@ -46,10 +49,10 @@ const defaultValues: FormValues = {
   name: '',
   email: '',
   phone: '',
-  deliveryType: 'russia',
+  deliveryType: 'Доставка по России — 350₽',
   address: '',
   comment: '',
-  paymentType: 'card',
+  paymentType: 'Банковская карта',
   promocode: '',
   isAgreed: false,
 };
@@ -68,17 +71,27 @@ const schema = yup
       .required('Введите номер мобильного телефона для связи'),
     deliveryType: yup
       .string()
-      .oneOf(['russia', 'courier', 'pickup'])
+      .oneOf([
+        'Доставка по России — 350₽',
+        'Курьером по Москве — 300₽',
+        'Самовывоз (пр-т Андропова, 18 корп. 3)',
+      ])
       .required(),
     address: yup.string().when('deliveryType', {
-      is: (value: string) => ['russia', 'courier'].includes(value),
+      is: (value: string) =>
+        ['Доставка по России — 350₽', 'Курьером по Москве — 300₽'].includes(
+          value,
+        ),
       then: (schema) =>
         schema.required('Введите адрес, по которому доставим товары'),
     }),
     comment: yup.string(),
-    paymentType: yup.string().oneOf(['card', 'promocode']).required(),
+    paymentType: yup
+      .string()
+      .oneOf(['Банковская карта', 'Промокод'])
+      .required(),
     promocode: yup.string().when('paymentType', {
-      is: 'promocode',
+      is: 'Промокод',
       then: (schema) =>
         schema.required('Введите промокод или выберите другой способ оплаты'),
     }),
@@ -89,9 +102,9 @@ const schema = yup
   .required();
 
 const extraCosts: Record<string, number> = {
-  russia: 350,
-  courier: 300,
-  pickup: 0,
+  'Доставка по России — 350₽': 350,
+  'Курьером по Москве — 300₽': 300,
+  'Самовывоз (пр-т Андропова, 18 корп. 3)': 0,
 };
 
 function OrderForm() {
@@ -122,7 +135,7 @@ function OrderForm() {
   }, [dispatch, error, response]);
 
   if (response) {
-    return <OrderConfirmedMessage />;
+    return <OrderConfirmedMessage title={response} />;
   }
 
   return (
@@ -212,11 +225,11 @@ function OrderForm() {
               disabled={isLoading}
             >
               <Tag
-                value="russia"
+                value="Доставка по России — 350₽"
                 size="xs"
                 rightAddons={
                   <Amount
-                    value={extraCosts.russia}
+                    value={extraCosts['Доставка по России — 350₽']}
                     currency="RUR"
                     minority={1}
                   />
@@ -225,11 +238,11 @@ function OrderForm() {
                 Доставка по России
               </Tag>
               <Tag
-                value="courier"
+                value="Курьером по Москве — 300₽"
                 size="xs"
                 rightAddons={
                   <Amount
-                    value={extraCosts.courier}
+                    value={extraCosts['Курьером по Москве — 300₽']}
                     currency="RUR"
                     minority={1}
                   />
@@ -238,11 +251,11 @@ function OrderForm() {
                 Курьером по Москве
               </Tag>
               <Tag
-                value="pickup"
+                value="Самовывоз (пр-т Андропова, 18 корп. 3)"
                 size="xs"
                 rightAddons={
                   <Amount
-                    value={extraCosts.pickup}
+                    value={extraCosts['Самовывоз (пр-т Андропова, 18 корп. 3)']}
                     currency="RUR"
                     minority={1}
                   />
@@ -254,15 +267,15 @@ function OrderForm() {
           )}
         />
 
-        {watch('deliveryType') === 'pickup' && (
+        {watch('deliveryType') === 'Самовывоз (пр-т Андропова, 18 корп. 3)' && (
           <Alert title="Адрес для самовывоза">
             пр-т Андропова, 18, корп. 3, Москва
           </Alert>
         )}
 
         {/* Address */}
-        {(watch('deliveryType') === 'russia' ||
-          watch('deliveryType') === 'courier') && (
+        {(watch('deliveryType') === 'Доставка по России — 350₽' ||
+          watch('deliveryType') === 'Курьером по Москве — 300₽') && (
           <Controller
             name="address"
             control={control}
@@ -324,10 +337,14 @@ function OrderForm() {
               onChange={(_, payload) => onChange(payload?.value)}
               disabled={isLoading}
             >
-              <Tag value="card" size="xs" leftAddons={<CreditCardMIcon />}>
+              <Tag
+                value="Банковская карта"
+                size="xs"
+                leftAddons={<CreditCardMIcon />}
+              >
                 Банковская карта
               </Tag>
-              <Tag value="promocode" size="xs" leftAddons={<GiftBoxMIcon />}>
+              <Tag value="Промокод" size="xs" leftAddons={<GiftBoxMIcon />}>
                 Промокод
               </Tag>
             </RadioGroup>
@@ -335,7 +352,7 @@ function OrderForm() {
         />
 
         {/* Promocode */}
-        {watch('paymentType') === 'promocode' && (
+        {watch('paymentType') === 'Промокод' && (
           <Controller
             name="promocode"
             control={control}

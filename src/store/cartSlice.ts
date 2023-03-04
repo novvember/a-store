@@ -38,7 +38,8 @@ const cartSlice = createSlice({
       );
 
       if (sameItem) {
-        sameItem.quantity++;
+        sameItem.totalCount++;
+        sameItem.totalPrice += sameItem.description.price;
       } else {
         state.items.push(action.payload);
       }
@@ -58,8 +59,9 @@ const cartSlice = createSlice({
         compareCartItems(item, action.payload),
       );
 
-      if (item?.quantity) {
-        item.quantity++;
+      if (item?.totalCount) {
+        item.totalCount++;
+        item.totalPrice += item.description.price;
       }
     },
     itemMinused(state, action: PayloadAction<CartItem>) {
@@ -67,8 +69,9 @@ const cartSlice = createSlice({
         compareCartItems(item, action.payload),
       );
 
-      if (item?.quantity) {
-        item.quantity--;
+      if (item?.totalCount) {
+        item.totalCount--;
+        item.totalPrice -= item.description.price;
       }
     },
     cartCleared(state) {
@@ -92,12 +95,9 @@ export default cartSlice.reducer;
 export const selectCartItems = (state: AppState) => state.cart.items;
 
 export const selectCartCount = (state: AppState) =>
-  state.cart.items.reduce((count, item) => count + item.quantity, 0);
+  state.cart.items.reduce((count, item) => count + item.totalCount, 0);
 
 export const selectTotalCartCost = (state: AppState) =>
-  state.cart.items.reduce(
-    (sum, item) => sum + item.description.price * item.quantity,
-    0,
-  );
+  state.cart.items.reduce((sum, item) => sum + item.totalPrice, 0);
 
 export const selectIsCartOpened = (state: AppState) => state.cart.isOpened;

@@ -8,7 +8,8 @@ export default function buildCartItem(
   const item: CartItem = {
     description: { id, title, preview, price },
     params: { ...params },
-    quantity: 1,
+    totalCount: 1,
+    totalPrice: price,
   };
 
   return item;

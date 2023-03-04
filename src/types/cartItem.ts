@@ -14,5 +14,6 @@ export type ProductParams = {
 export type CartItem = {
   description: ItemDesription;
   params: ProductParams;
-  quantity: number;
+  totalCount: number;
+  totalPrice: number;
 };

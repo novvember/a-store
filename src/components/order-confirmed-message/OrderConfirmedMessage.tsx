@@ -6,7 +6,13 @@ import { Badge } from '@alfalab/core-components/badge';
 import { CheckmarkOnCircleMIcon } from '@alfalab/icons-glyph/CheckmarkOnCircleMIcon';
 import { Space } from '@alfalab/core-components/space';
 
-function OrderConfirmedMessage() {
+type OrderConfirmedMessageProps = {
+  title?: string;
+};
+
+function OrderConfirmedMessage({
+  title = 'Заказ создан',
+}: OrderConfirmedMessageProps) {
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -15,7 +21,7 @@ function OrderConfirmedMessage() {
 
   return (
     <Plate
-      title="Заказ создан"
+      title={title}
       view="positive"
       hasCloser
       onClose={handleClose}

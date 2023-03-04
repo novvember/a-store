@@ -27,7 +27,8 @@ function CartItem({ item }: CartItemProps) {
 
   const {
     description: { preview, title, price, id },
-    quantity,
+    totalCount,
+    totalPrice,
   } = item;
 
   const handlePlus = () => {
@@ -35,7 +36,7 @@ function CartItem({ item }: CartItemProps) {
   };
 
   const handleMinus = () => {
-    if (quantity > 1) {
+    if (totalCount > 1) {
       dispatch(itemMinused(item));
     } else {
       handleDelete();
@@ -80,7 +81,7 @@ function CartItem({ item }: CartItemProps) {
         >
           <MinusCircleMIcon />
         </Button>
-        {`${quantity} шт.`}
+        {`${totalCount} шт.`}
         <Button
           view="ghost"
           onClick={handlePlus}
@@ -95,7 +96,7 @@ function CartItem({ item }: CartItemProps) {
         className="cart-item__cost"
         color="accent"
       >
-        <Amount value={price * quantity} currency="RUR" minority={1} />
+        <Amount value={totalPrice} currency="RUR" minority={1} />
       </Typography.Text>
 
       <Button

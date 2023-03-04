@@ -1,4 +1,5 @@
 import { Group } from '../types/group';
+import { Order } from '../types/order';
 import { FullProduct, PreviewProduct } from '../types/product';
 
 class Api {
@@ -41,16 +42,19 @@ class Api {
     }
   }
 
-  async createOrder(payload: any) {
+  async createOrder(order: Order) {
     const url = `${this.baseUrl}/create-order`;
 
     const res = await fetch(url, {
       method: 'POST',
-      body: payload,
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(order),
     });
 
     if (res.ok) {
-      return (await res.json()) as unknown;
+      return await res.text();
     } else {
       throw new Error('Не удалось получить отправить заказ');
     }
