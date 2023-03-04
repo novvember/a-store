@@ -82,10 +82,6 @@ function PromocodeInput({
   };
 
   const handleSave = async () => {
-    if (currentValue.length < 1) {
-      return;
-    }
-
     setMode('loading');
 
     try {
@@ -119,14 +115,16 @@ function PromocodeInput({
         hint={message}
         leftAddons={<GiftBoxMIcon color={ICON_COLOR} />}
         rightAddons={
-          <Button
-            view="secondary"
-            size="xs"
-            loading={isLoading}
-            onClick={handleSubmit}
-          >
-            {buttonLabel}
-          </Button>
+          currentValue.length > 0 && (
+            <Button
+              view="secondary"
+              size="xxs"
+              loading={isLoading}
+              onClick={handleSubmit}
+            >
+              {buttonLabel}
+            </Button>
+          )
         }
       />
     </Space>
