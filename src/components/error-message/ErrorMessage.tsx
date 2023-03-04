@@ -1,20 +1,16 @@
-import { Typography } from '@alfalab/core-components/typography';
+import { Plate } from '@alfalab/core-components/plate';
+import { Link as RouterLink } from 'react-router-dom';
+import { Link } from '@alfalab/core-components/link';
 import './ErrorMessage.css';
 
-type ErrorMessageProps = {
-  children: string;
-};
-
-function ErrorMessage({ children }: ErrorMessageProps) {
+function ErrorMessage() {
   return (
-    <Typography.TitleResponsive
-      view="xsmall"
-      color="attention"
-      tag="div"
-      className="error-message"
-    >
-      {children}
-    </Typography.TitleResponsive>
+    <Plate title="Ошибка" view="attention">
+      При загрузке данных произошла ошибка :( Попробуйте еще раз или{' '}
+      <RouterLink to="/contact">
+        <Link>сообщите нам</Link>.
+      </RouterLink>
+    </Plate>
   );
 }
 

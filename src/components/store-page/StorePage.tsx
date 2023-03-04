@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '../../store';
 import {
   fetchStoreItems,
   selectAllStoreItems,
-  selectStoreError,
   selectStoreStatus,
 } from '../../store/storeSlice';
 import ErrorMessage from '../error-message/ErrorMessage';
@@ -17,7 +16,6 @@ function StorePage() {
   const dispatch = useAppDispatch();
   const cards = useAppSelector(selectAllStoreItems);
   const status = useAppSelector(selectStoreStatus);
-  const error = useAppSelector(selectStoreError);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -35,7 +33,7 @@ function StorePage() {
 
       {status === 'loading' && <Loader />}
 
-      {status === 'failed' && <ErrorMessage>{error}</ErrorMessage>}
+      {status === 'failed' && <ErrorMessage />}
 
       {status === 'succeeded' && (
         <Space direction="horizontal" wrap align="start" size="l">

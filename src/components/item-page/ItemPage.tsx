@@ -14,7 +14,7 @@ function ItemPage() {
   const { item, isLoading, error } = useGetItemByIdRequest(id ?? '');
 
   if (isLoading) return <Loader />;
-  if (!!error || !item) return <ErrorMessage>{error}</ErrorMessage>;
+  if (!!error || !item) return <ErrorMessage />;
 
   const { images, title, price, description } = item;
 

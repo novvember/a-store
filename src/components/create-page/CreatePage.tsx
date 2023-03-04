@@ -6,7 +6,6 @@ import { useAppDispatch, useAppSelector } from '../../store';
 import {
   fetchCreateItems,
   selectAllCreateGroups,
-  selectCreateError,
   selectCreateStatus,
 } from '../../store/createSlice';
 import ErrorMessage from '../error-message/ErrorMessage';
@@ -15,7 +14,6 @@ function CreatePage() {
   const dispatch = useAppDispatch();
   const groups = useAppSelector(selectAllCreateGroups);
   const status = useAppSelector(selectCreateStatus);
-  const error = useAppSelector(selectCreateError);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -33,7 +31,7 @@ function CreatePage() {
 
       {status === 'loading' && <Loader />}
 
-      {status === 'failed' && <ErrorMessage>{error}</ErrorMessage>}
+      {status === 'failed' && <ErrorMessage />}
 
       {status === 'succeeded' &&
         groups.map((group) => <CardGroup group={group} key={group.id} />)}
