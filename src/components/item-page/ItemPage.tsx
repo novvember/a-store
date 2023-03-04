@@ -4,43 +4,19 @@ import './ItemPage.css';
 import { Typography } from '@alfalab/core-components/typography';
 import Gallery from '../gallery/Gallery';
 import AddToCartForm from '../add-to-cart-form/AddToCartForm';
-import { useEffect, useState } from 'react';
-import api from '../../api/api';
 import Loader from '../loader/Loader';
 import ErrorMessage from '../error-message/ErrorMessage';
-import { FullProduct } from '../../types/product';
 import { Amount } from '@alfalab/core-components/amount';
+import useGetItemByIdRequest from '../../api/useGetItemByIdRequest';
 
 function ItemPage() {
   const { id } = useParams();
-  const [product, setProduct] = useState<FullProduct | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    if (!product && id) {
-      const fetchProduct = async () => {
-        setIsLoading(true);
-        setError('');
-
-        try {
-          const product = await api.getItemById(+id);
-          setProduct(product);
-        } catch {
-          setError('Не удалось получить информацию о товаре');
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchProduct();
-    }
-  }, [id, product]);
+  const { item, isLoading, error } = useGetItemByIdRequest(id ?? '');
 
   if (isLoading) return <Loader />;
-  if (!!error || !product) return <ErrorMessage>{error}</ErrorMessage>;
+  if (!!error || !item) return <ErrorMessage>{error}</ErrorMessage>;
 
-  const { images, title, price, description } = product;
+  const { images, title, price, description } = item;
 
   return (
     <Space direction="horizontal" className="item" dataTestId="item">
@@ -64,7 +40,7 @@ function ItemPage() {
           <Amount value={price} currency="RUR" minority={1} />
         </Typography.Text>
 
-        <AddToCartForm product={product} />
+        <AddToCartForm product={item} />
 
         <Typography.Text
           view="secondary-large"
