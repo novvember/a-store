@@ -1,35 +1,26 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import api from '../api/api';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CartItem } from '../types/cartItem';
 import compareCartItems from '../utils/compareCartItems';
 import { AppState } from './index';
 
 type CartSlice = {
   items: CartItem[];
-  status: 'loading' | 'succeeded' | 'failed' | 'idle';
-  error: string;
   isOpened: boolean;
 };
 
 const defaultState: CartSlice = {
   items: [],
-  status: 'idle',
-  error: '',
   isOpened: false,
 };
 
 const savedState = localStorage.getItem('cart')
-  ? JSON.parse(localStorage.getItem('cart')!)
+  ? {
+      items: JSON.parse(localStorage.getItem('cart')!),
+      isOpened: defaultState.isOpened,
+    }
   : null;
 
 const initialState: CartSlice = savedState ?? defaultState;
-
-export const createOrder = createAsyncThunk(
-  'cart/createOrder',
-  async (payload: unknown) => {
-    return await api.createOrder(payload);
-  },
-);
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -80,20 +71,9 @@ const cartSlice = createSlice({
         item.quantity--;
       }
     },
-  },
-  extraReducers(builder) {
-    builder
-      .addCase(createOrder.pending, (state, action) => {
-        state.status = 'loading';
-      })
-      .addCase(createOrder.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.items = [];
-      })
-      .addCase(createOrder.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message ?? '';
-      });
+    cartCleared(state) {
+      state.items = [];
+    },
   },
 });
 
@@ -104,13 +84,10 @@ export const {
   itemDeleted,
   itemPlused,
   itemMinused,
+  cartCleared,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
-
-export const selectCartStatus = (state: AppState) => state.cart.status;
-
-export const selectCartError = (state: AppState) => state.cart.error;
 
 export const selectCartItems = (state: AppState) => state.cart.items;
 

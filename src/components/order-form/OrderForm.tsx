@@ -15,17 +15,16 @@ import { GiftBoxMIcon } from '@alfalab/icons-glyph/GiftBoxMIcon';
 import { CreditCardMIcon } from '@alfalab/icons-glyph/CreditCardMIcon';
 import { Button } from '@alfalab/core-components/button';
 import { Alert } from '@alfalab/core-components/alert';
+import { Toast } from '@alfalab/core-components/toast';
 
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch, useAppSelector } from '../../store';
-import {
-  createOrder,
-  selectCartStatus,
-  selectTotalCartCost,
-} from '../../store/cartSlice';
+import { cartCleared, selectTotalCartCost } from '../../store/cartSlice';
 import PromocodeInput from '../promocode-input/PromocodeInput';
+import usePostOrderRequest from '../../api/usePostOrderRequest';
+import { useEffect, useRef, useState } from 'react';
 
 const ICON_COLOR = '#aaa';
 
@@ -33,10 +32,10 @@ type FormValues = {
   name: string;
   email: string;
   phone: string;
-  delivery: 'russia' | 'courier' | 'pickup';
+  deliveryType: 'russia' | 'courier' | 'pickup';
   address: string;
   comment: string;
-  payment: 'card' | 'promocode';
+  paymentType: 'card' | 'promocode';
   promocode: string;
   isAgreed: boolean;
 };
@@ -45,10 +44,10 @@ const defaultValues: FormValues = {
   name: '',
   email: '',
   phone: '',
-  delivery: 'russia',
+  deliveryType: 'russia',
   address: '',
   comment: '',
-  payment: 'card',
+  paymentType: 'card',
   promocode: '',
   isAgreed: false,
 };
@@ -65,15 +64,18 @@ const schema = yup
       .trim()
       .matches(/\+7\s\d{3}\s\d{3}-\d{2}-\d{2}/, 'Неверный номер телефона')
       .required('Введите номер мобильного телефона для связи'),
-    delivery: yup.string().oneOf(['russia', 'courier', 'pickup']).required(),
-    address: yup.string().when('delivery', {
+    deliveryType: yup
+      .string()
+      .oneOf(['russia', 'courier', 'pickup'])
+      .required(),
+    address: yup.string().when('deliveryType', {
       is: (value: string) => ['russia', 'courier'].includes(value),
       then: (schema) =>
         schema.required('Введите адрес, по которому доставим товары'),
     }),
     comment: yup.string(),
-    payment: yup.string().oneOf(['card', 'promocode']).required(),
-    promocode: yup.string().when('payment', {
+    paymentType: yup.string().oneOf(['card', 'promocode']).required(),
+    promocode: yup.string().when('paymentType', {
       is: 'promocode',
       then: (schema) =>
         schema.required('Введите промокод или выберите другой способ оплаты'),
@@ -92,7 +94,6 @@ const extraCosts: Record<string, number> = {
 
 function OrderForm() {
   const dispatch = useAppDispatch();
-  const status = useAppSelector(selectCartStatus);
 
   const { control, handleSubmit, watch } = useForm({
     defaultValues,
@@ -101,9 +102,23 @@ function OrderForm() {
 
   const totalCost = useAppSelector(selectTotalCartCost);
 
+  const { postOrder, response, isLoading, error } = usePostOrderRequest();
+
+  const [isToastOpened, setIsToastOpened] = useState(false);
+  const button = useRef<HTMLButtonElement>(null);
+
   const onSubmit = (data: FormValues) => {
-    dispatch(createOrder(data));
+    postOrder(data);
   };
+
+  useEffect(() => {
+    if (response) {
+      dispatch(cartCleared());
+      setIsToastOpened(true);
+    } else if (!!error) {
+      setIsToastOpened(true);
+    }
+  }, [dispatch, error, response]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -170,9 +185,9 @@ function OrderForm() {
           )}
         />
 
-        {/* Delivery */}
+        {/* deliveryType */}
         <Controller
-          name="delivery"
+          name="deliveryType"
           control={control}
           render={({
             field: { onChange, value, name },
@@ -230,15 +245,15 @@ function OrderForm() {
           )}
         />
 
-        {watch('delivery') === 'pickup' && (
+        {watch('deliveryType') === 'pickup' && (
           <Alert title="Адрес для самовывоза">
             пр-т Андропова, 18, корп. 3, Москва
           </Alert>
         )}
 
         {/* Address */}
-        {(watch('delivery') === 'russia' ||
-          watch('delivery') === 'courier') && (
+        {(watch('deliveryType') === 'russia' ||
+          watch('deliveryType') === 'courier') && (
           <Controller
             name="address"
             control={control}
@@ -279,9 +294,9 @@ function OrderForm() {
           )}
         />
 
-        {/* Payment */}
+        {/* paymentType */}
         <Controller
-          name="payment"
+          name="paymentType"
           control={control}
           render={({
             field: { onChange, value, name },
@@ -308,7 +323,7 @@ function OrderForm() {
         />
 
         {/* Promo */}
-        {watch('payment') === 'promocode' && (
+        {watch('paymentType') === 'promocode' && (
           <Controller
             name="promocode"
             control={control}
@@ -344,19 +359,35 @@ function OrderForm() {
           )}
         />
 
+        <Toast
+          open={isToastOpened}
+          anchorElement={button.current}
+          position="right"
+          offset={[0, 8]}
+          badge={response ? 'positive' : 'negative'}
+          title={response ? 'Готово!' : error}
+          hasCloser={false}
+          block={false}
+          onClose={() => {
+            setIsToastOpened(false);
+          }}
+          autoCloseDelay={3000}
+        />
+
         <Button
+          ref={button}
           view="primary"
           type="submit"
-          loading={status === 'loading'}
+          loading={isLoading}
           rightAddons={
             <Amount
-              value={totalCost + extraCosts[watch('delivery')]}
+              value={totalCost + extraCosts[watch('deliveryType')]}
               currency="RUR"
               minority={1}
             />
           }
         >
-          Продолжить оформление
+          Оформить заказ
         </Button>
       </Space>
     </form>
