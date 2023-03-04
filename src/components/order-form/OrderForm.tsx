@@ -25,6 +25,7 @@ import { cartCleared, selectTotalCartCost } from '../../store/cartSlice';
 import PromocodeInput from '../promocode-input/PromocodeInput';
 import usePostOrderRequest from '../../api/usePostOrderRequest';
 import { useEffect, useRef, useState } from 'react';
+import api from '../../api/api';
 
 const ICON_COLOR = '#aaa';
 
@@ -336,6 +337,7 @@ function OrderForm() {
                 value={value}
                 onChange={onChange}
                 errorMessage={error?.message}
+                check={api.checkPromocode}
               />
             )}
           />

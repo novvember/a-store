@@ -3,12 +3,14 @@ import { Space } from '@alfalab/core-components/space';
 import { Button } from '@alfalab/core-components/button';
 import { useEffect, useState } from 'react';
 import { GiftBoxMIcon } from '@alfalab/icons-glyph/GiftBoxMIcon';
+import api from '../../api/api';
 
 type PromocodeInputProps = {
   name: string;
   value: string;
   onChange: (value: string) => void;
   errorMessage?: string;
+  check: (value: string) => Promise<{ message: string }>;
 };
 
 const ICON_COLOR = '#aaa';
@@ -18,6 +20,7 @@ function PromocodeInput({
   value,
   onChange,
   errorMessage,
+  check,
 }: PromocodeInputProps) {
   const [currentValue, setCurrentValue] = useState(value);
 
@@ -76,7 +79,7 @@ function PromocodeInput({
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (currentValue.length < 1) {
       return;
     }
@@ -84,10 +87,10 @@ function PromocodeInput({
     setMode('loading');
 
     try {
-      console.log('promocode sent');
+      const res = await check(currentValue);
       onChange(currentValue);
       setMode('saved');
-      setMessage('Скидка 300 ₽');
+      setMessage(res.message ?? 'Промокод применен');
     } catch {
       setMode('error');
     }

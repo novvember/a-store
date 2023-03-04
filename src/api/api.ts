@@ -55,6 +55,16 @@ class Api {
       throw new Error('Не удалось получить отправить заказ');
     }
   }
+
+  async checkPromocode(code: string): Promise<{ message: string }> {
+    // Нет метода АПИ для проверки промокода,
+    // поэтому используем мок, который создает эффект запроса
+    // и принимает любой промокод
+
+    return new Promise((res) => {
+      setTimeout(() => res({ message: 'Промокод применен' }), 2000);
+    });
+  }
 }
 
 const api = new Api('http://qa-games.ru/astore');
