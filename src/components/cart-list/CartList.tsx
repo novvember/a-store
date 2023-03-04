@@ -10,6 +10,10 @@ function CartList() {
   const items = useAppSelector(selectCartItems);
   const totalCost = useAppSelector(selectTotalCartCost);
 
+  if (items.length === 0) {
+    return null;
+  }
+
   return (
     <Space direction="vertical" divider={<Divider />} fullWidth>
       {items.map((item) => (

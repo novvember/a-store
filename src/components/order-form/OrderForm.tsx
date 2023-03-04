@@ -26,6 +26,7 @@ import PromocodeInput from '../promocode-input/PromocodeInput';
 import usePostOrderRequest from '../../api/usePostOrderRequest';
 import { useEffect, useRef, useState } from 'react';
 import api from '../../api/api';
+import OrderConfirmedMessage from '../order-confirmed-message/OrderConfirmedMessage';
 
 const ICON_COLOR = '#aaa';
 
@@ -115,11 +116,14 @@ function OrderForm() {
   useEffect(() => {
     if (response) {
       dispatch(cartCleared());
-      setIsToastOpened(true);
     } else if (!!error) {
       setIsToastOpened(true);
     }
   }, [dispatch, error, response]);
+
+  if (response) {
+    return <OrderConfirmedMessage />;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -375,8 +379,8 @@ function OrderForm() {
           anchorElement={button.current}
           position="right"
           offset={[0, 8]}
-          badge={response ? 'positive' : 'negative'}
-          title={response ? 'Готово!' : error}
+          badge="negative"
+          title={error}
           hasCloser={false}
           block={false}
           onClose={() => {
