@@ -43,7 +43,7 @@ function ItemPage() {
         <AddToCartForm product={item} />
 
         <Typography.Text
-          view="secondary-large"
+          view="primary-medium"
           color="primary"
           dataTestId="description"
         >
