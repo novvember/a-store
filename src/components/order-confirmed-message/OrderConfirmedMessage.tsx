@@ -43,9 +43,9 @@ function OrderConfirmedMessage({
         </Typography.Text>
         <Typography.Text>
           Если появятся вопросы,{' '}
-          <RouterLink to="/contact">
-            <Link>напишите или позвоните нам</Link>
-          </RouterLink>
+          <Link Component={RouterLink} href="/contact">
+            напишите или позвоните нам
+          </Link>
           .
         </Typography.Text>
         <Typography.Text>Спасибо 🧡</Typography.Text>

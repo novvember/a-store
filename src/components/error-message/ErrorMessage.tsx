@@ -7,9 +7,10 @@ function ErrorMessage() {
   return (
     <Plate title="Ошибка" view="attention">
       При загрузке данных произошла ошибка :( Попробуйте еще раз или{' '}
-      <RouterLink to="/contact">
-        <Link>сообщите нам</Link>.
-      </RouterLink>
+      <Link Component={RouterLink} href="/contact">
+        сообщите нам
+      </Link>
+      .
     </Plate>
   );
 }
