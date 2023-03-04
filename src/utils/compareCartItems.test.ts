@@ -23,7 +23,7 @@ describe('compareCartItems function', () => {
     const item2 = buildCartItem(MOCK_PRODUCT, MOCK_PARAMS);
     item2.description.price = 0;
     item2.description.title = '';
-    item2.quantity = 10;
+    item2.totalCount = 10;
 
     expect(compareCartItems(item1, item2)).toBeTruthy();
   });
