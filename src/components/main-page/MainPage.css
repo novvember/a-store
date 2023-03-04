@@ -5,7 +5,7 @@
   padding: var(--gap-s);
   background-position: center;
   background-size: 100%;
-  transition: background-size ease-in-out 0.4s;
+  transition: background-size ease-out 0.2s;
 }
 
 .main__link_type_create {
