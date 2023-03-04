@@ -11,6 +11,7 @@ type PromocodeInputProps = {
   onChange: (value: string) => void;
   errorMessage?: string;
   check: (value: string) => Promise<{ message: string }>;
+  disabled?: boolean;
 };
 
 const ICON_COLOR = '#aaa';
@@ -21,6 +22,7 @@ function PromocodeInput({
   onChange,
   errorMessage,
   check,
+  disabled,
 }: PromocodeInputProps) {
   const [currentValue, setCurrentValue] = useState(value);
 
@@ -111,7 +113,7 @@ function PromocodeInput({
         block
         success={isSuccess}
         onChange={handleChange}
-        disabled={isLoading || isSuccess}
+        disabled={disabled || isLoading || isSuccess}
         error={error}
         value={currentValue}
         hint={message}

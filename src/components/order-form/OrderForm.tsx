@@ -141,6 +141,7 @@ function OrderForm() {
               value={value}
               onChange={onChange}
               error={error?.message}
+              disabled={isLoading}
             />
           )}
         />
@@ -162,6 +163,7 @@ function OrderForm() {
               value={value}
               onChange={onChange}
               error={error?.message}
+              disabled={isLoading}
             />
           )}
         />
@@ -182,6 +184,7 @@ function OrderForm() {
               value={value}
               onChange={onChange}
               error={error?.message}
+              disabled={isLoading}
             />
           )}
         />
@@ -202,6 +205,7 @@ function OrderForm() {
               value={value}
               onChange={(_, payload) => onChange(payload?.value)}
               error={invalid}
+              disabled={isLoading}
             >
               <Tag
                 value="russia"
@@ -270,12 +274,13 @@ function OrderForm() {
                 value={value}
                 onChange={onChange}
                 error={error?.message}
+                disabled={isLoading}
               />
             )}
           />
         )}
 
-        {/* Cooment */}
+        {/* Comment */}
         <Controller
           name="comment"
           control={control}
@@ -291,6 +296,7 @@ function OrderForm() {
               value={value}
               onChange={onChange}
               error={invalid}
+              disabled={isLoading}
             />
           )}
         />
@@ -312,6 +318,7 @@ function OrderForm() {
               value={value}
               error={invalid}
               onChange={(_, payload) => onChange(payload?.value)}
+              disabled={isLoading}
             >
               <Tag value="card" size="xs" leftAddons={<CreditCardMIcon />}>
                 Банковская карта
@@ -323,7 +330,7 @@ function OrderForm() {
           )}
         />
 
-        {/* Promo */}
+        {/* Promocode */}
         {watch('paymentType') === 'promocode' && (
           <Controller
             name="promocode"
@@ -338,6 +345,7 @@ function OrderForm() {
                 onChange={onChange}
                 errorMessage={error?.message}
                 check={api.checkPromocode}
+                disabled={isLoading}
               />
             )}
           />
@@ -357,6 +365,7 @@ function OrderForm() {
               checked={value}
               error={error?.message}
               onChange={(_, payload) => onChange(payload?.checked)}
+              disabled={isLoading}
             />
           )}
         />
