@@ -25,7 +25,7 @@ function ItemPage() {
       <Space>
         <Typography.TitleResponsive
           tag="h2"
-          view="small"
+          view="medium"
           dataTestId="item-title"
         >
           {title}

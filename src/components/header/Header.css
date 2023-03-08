@@ -4,16 +4,41 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: #fff;
-  padding-block: var(--gap-xs);
+  background-color: var(--color-light-bg-opaque);
+  padding-block: var(--gap-s);
+  backdrop-filter: blur(10px);
+  padding-inline: var(--page-padding);
+}
+
+.header__menu-text {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .header__menu-text {
+    display: inline;
+  }
 }
 
 .header__drawer {
   background-color: #000;
   padding: var(--gap-xl);
+  max-width: 100%;
 }
 
 .header__cart {
   background-color: #fff;
   padding: var(--gap-xl);
+  max-width: 100%;
+}
+
+.header__close-button {
+  position: absolute;
+  top: var(--gap-m);
+  right: var(--gap-m);
+  color: var(--color-light-graphic-primary);
+}
+
+.header__close-button_theme_dark {
+  color: var(--color-light-graphic-primary-inverted);
 }

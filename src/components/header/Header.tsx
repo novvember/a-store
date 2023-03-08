@@ -1,6 +1,6 @@
 import { Typography } from '@alfalab/core-components/typography';
 import { Button } from '@alfalab/core-components/button';
-import { Space } from '@alfalab/core-components/space';
+import { CrossMIcon } from '@alfalab/icons-glyph/CrossMIcon';
 import { BurgerMIcon } from '@alfalab/icons-glyph/BurgerMIcon';
 import { Drawer } from '@alfalab/core-components/drawer';
 
@@ -36,12 +36,10 @@ function Header() {
       </Link>
 
       <Button view="ghost" onClick={toggleMenu}>
-        <Space direction="horizontal" align="end" size="s">
+        <Typography.TitleResponsive view="medium" tag="div">
           <BurgerMIcon />
-          <Typography.TitleResponsive view="medium" tag="div">
-            меню
-          </Typography.TitleResponsive>
-        </Space>
+          <span className="header__menu-text"> меню</span>
+        </Typography.TitleResponsive>
       </Button>
 
       <Drawer
@@ -49,12 +47,26 @@ function Header() {
         onClose={toggleMenu}
         className="header__drawer"
       >
+        <Button
+          view="ghost"
+          className="header__close-button header__close-button_theme_dark"
+          onClick={toggleMenu}
+        >
+          <CrossMIcon />
+        </Button>
         <Menu onClick={toggleMenu} />
       </Drawer>
 
       <CartButton />
 
       <Drawer open={isCartOpened} onClose={toogleCart} className="header__cart">
+        <Button
+          view="ghost"
+          className="header__close-button"
+          onClick={toogleCart}
+        >
+          <CrossMIcon />
+        </Button>
         <CartDrawer onClose={toogleCart} />
       </Drawer>
     </header>

@@ -84,7 +84,7 @@ function AddToCartForm({ product }: AddToCartFormProps) {
   return (
     <form>
       <Space>
-        <Space direction="horizontal">
+        <Space direction="horizontal" wrap>
           {colors && (
             <Select
               size="s"

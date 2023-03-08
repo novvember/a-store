@@ -9,6 +9,7 @@ import {
   selectCreateStatus,
 } from '../../store/createSlice';
 import ErrorMessage from '../error-message/ErrorMessage';
+import { Space } from '@alfalab/core-components/space';
 
 function CreatePage() {
   const dispatch = useAppDispatch();
@@ -33,8 +34,13 @@ function CreatePage() {
 
       {status === 'failed' && <ErrorMessage />}
 
-      {status === 'succeeded' &&
-        groups.map((group) => <CardGroup group={group} key={group.id} />)}
+      {status === 'succeeded' && (
+        <Space direction="vertical" size="l">
+          {groups.map((group) => (
+            <CardGroup group={group} key={group.id} />
+          ))}
+        </Space>
+      )}
     </>
   );
 }

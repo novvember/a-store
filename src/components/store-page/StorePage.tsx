@@ -1,7 +1,6 @@
 import { Space } from '@alfalab/core-components/space';
 import { useEffect } from 'react';
 import Card from '../card/Card';
-import { Link } from 'react-router-dom';
 import SectionHeader from '../section-header/SectionHeader';
 import Loader from '../loader/Loader';
 import { useAppDispatch, useAppSelector } from '../../store';
@@ -38,9 +37,7 @@ function StorePage() {
       {status === 'succeeded' && (
         <Space direction="horizontal" wrap align="start" size="l">
           {cards.map((card) => (
-            <Link to={`/item/${card.id}`} key={card.id}>
-              <Card product={card} />
-            </Link>
+            <Card product={card} key={card.id} />
           ))}
         </Space>
       )}

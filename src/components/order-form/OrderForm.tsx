@@ -28,6 +28,8 @@ import { useEffect, useRef, useState } from 'react';
 import api from '../../api/api';
 import OrderConfirmedMessage from '../order-confirmed-message/OrderConfirmedMessage';
 
+import './OrderForm.css';
+
 const ICON_COLOR = '#aaa';
 
 export type FormValues = {
@@ -139,7 +141,7 @@ function OrderForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="order-form">
       <Space direction="vertical" fullWidth size={32}>
         {/* ФИО */}
         <Controller
@@ -418,6 +420,7 @@ function OrderForm() {
               minority={1}
             />
           }
+          block
         >
           Оформить заказ
         </Button>

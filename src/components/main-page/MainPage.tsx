@@ -25,7 +25,7 @@ const LINKS: LinkType[] = [
 
 function MainPage() {
   return (
-    <Space direction="horizontal" size={0} fullWidth>
+    <div className="main">
       {LINKS.map((link) => (
         <Link
           to={link.to}
@@ -42,7 +42,7 @@ function MainPage() {
           </Typography.TitleResponsive>
         </Link>
       ))}
-    </Space>
+    </div>
   );
 }
 

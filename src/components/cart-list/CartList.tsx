@@ -6,6 +6,8 @@ import { Divider } from '@alfalab/core-components/divider';
 import { Amount } from '@alfalab/core-components/amount';
 import { Typography } from '@alfalab/core-components/typography';
 
+import './CartList.css';
+
 function CartList() {
   const items = useAppSelector(selectCartItems);
   const totalCost = useAppSelector(selectTotalCartCost);
@@ -15,7 +17,12 @@ function CartList() {
   }
 
   return (
-    <Space direction="vertical" divider={<Divider />} fullWidth>
+    <Space
+      direction="vertical"
+      divider={<Divider />}
+      fullWidth
+      className="cart-list"
+    >
       {items.map((item) => (
         <CartItem key={item.description.id} item={item} />
       ))}
