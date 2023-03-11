@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: var(--gap-xs);
+  grid-auto-flow: row dense;
 }
 
 .gallery__image {
@@ -11,6 +12,16 @@
   object-fit: cover;
   cursor: pointer;
   transition: transform ease-in-out 0.2s;
+}
+
+.gallery__image:nth-child(1) {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+}
+
+.gallery__image:nth-child(4) {
+  grid-column: span 2 / -1;
+  grid-row: span 2;
 }
 
 .gallery__image:hover {

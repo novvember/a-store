@@ -4,27 +4,37 @@ import {
   Select,
 } from '@alfalab/core-components/select';
 import { Space } from '@alfalab/core-components/space';
-import { useEffect, useState } from 'react';
+import { Toast } from '@alfalab/core-components/toast';
+import { useEffect, useRef, useState } from 'react';
+import { useAppDispatch } from '../../store';
+import { itemAdded } from '../../store/cartSlice';
+import { ProductParams } from '../../types/cartItem';
 
-import data from '../../mocks/groups.json';
-import getColorName from '../../utils/getColorName';
+import { FullProduct } from '../../types/product';
+import buildCartItem from '../../utils/buildCartItem';
+import getParamValue from '../../utils/getParamValue';
+import getParamLabel from '../../utils/getParamLabel';
 
 type AddToCartFormProps = {
-  id: string;
+  product: FullProduct;
 };
 
-function AddToCartForm({ id }: AddToCartFormProps) {
-  const { colors, sizes, stickerNumbers } = data.groups[0].products[1];
+function AddToCartForm({ product }: AddToCartFormProps) {
+  const { colors, sizes, stickerNumbers } = product;
+  const dispatch = useAppDispatch();
+
+  const [isToastOpened, setIsToastOpened] = useState(false);
+  const button = useRef<HTMLButtonElement>(null);
 
   const getInitialSelected = () => {
-    const selected: Record<string, string> = {};
+    const selected: ProductParams = {};
     if (colors) selected.color = '';
     if (sizes) selected.size = '';
     if (stickerNumbers) selected.stickerNumber = '';
     return selected;
   };
 
-  const [selected, setSelected] = useState(getInitialSelected);
+  const [selected, setSelected] = useState<ProductParams>(getInitialSelected);
 
   const [disabled, setDisabled] = useState(true);
 
@@ -41,8 +51,9 @@ function AddToCartForm({ id }: AddToCartFormProps) {
   };
 
   const handleSubmit = () => {
-    console.log('submited');
-    console.log(selected);
+    const item = buildCartItem(product, selected);
+    dispatch(itemAdded(item));
+    setIsToastOpened(true);
   };
 
   useEffect(() => {
@@ -53,7 +64,7 @@ function AddToCartForm({ id }: AddToCartFormProps) {
     colors &&
     colors.map((color) => ({
       key: color,
-      content: getColorName(color),
+      content: getParamValue(color),
     }));
 
   const sizesOptions =
@@ -73,13 +84,13 @@ function AddToCartForm({ id }: AddToCartFormProps) {
   return (
     <form>
       <Space>
-        <Space direction="horizontal">
+        <Space direction="horizontal" wrap>
           {colors && (
             <Select
               size="s"
               options={colorsOptions!}
               name="color"
-              placeholder="Цвет"
+              placeholder={getParamLabel('color')}
               selected={selected.color}
               onChange={handleSelect}
               dataTestId="select"
@@ -89,7 +100,7 @@ function AddToCartForm({ id }: AddToCartFormProps) {
           {sizes && (
             <Select
               options={sizesOptions!}
-              placeholder="Размер"
+              placeholder={getParamLabel('size')}
               name="size"
               onChange={handleSelect}
               selected={selected.size}
@@ -100,7 +111,7 @@ function AddToCartForm({ id }: AddToCartFormProps) {
           {stickerNumbers && (
             <Select
               options={stickersOptions!}
-              placeholder="Стикер"
+              placeholder={getParamLabel('stickerNumber')}
               name="stickerNumber"
               onChange={handleSelect}
               selected={selected.stickerNumber}
@@ -109,7 +120,23 @@ function AddToCartForm({ id }: AddToCartFormProps) {
           )}
         </Space>
 
+        <Toast
+          open={isToastOpened}
+          anchorElement={button.current}
+          position="right"
+          offset={[0, 8]}
+          badge="positive"
+          title="Добавлено"
+          hasCloser={false}
+          block={false}
+          onClose={() => {
+            setIsToastOpened(false);
+          }}
+          autoCloseDelay={1500}
+        />
+
         <Button
+          ref={button}
           size="m"
           view="primary"
           disabled={disabled}

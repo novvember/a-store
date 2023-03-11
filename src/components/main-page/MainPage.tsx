@@ -2,7 +2,7 @@ import { Space } from '@alfalab/core-components/space';
 import { Typography } from '@alfalab/core-components/typography';
 import { Link } from 'react-router-dom';
 
-import './Main.css';
+import './MainPage.css';
 
 type LinkType = {
   title: string;
@@ -23,9 +23,9 @@ const LINKS: LinkType[] = [
   },
 ];
 
-function Main() {
+function MainPage() {
   return (
-    <Space direction="horizontal" size={0} fullWidth>
+    <div className="main">
       {LINKS.map((link) => (
         <Link
           to={link.to}
@@ -42,8 +42,8 @@ function Main() {
           </Typography.TitleResponsive>
         </Link>
       ))}
-    </Space>
+    </div>
   );
 }
 
-export default Main;
+export default MainPage;

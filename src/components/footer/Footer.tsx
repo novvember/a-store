@@ -4,7 +4,7 @@ import './Footer.css';
 function Footer() {
   return (
     <footer className="footer">
-      <Typography.Text tag="p" color="tertiary" weight="bold">
+      <Typography.Text tag="p" color="tertiary" weight="medium">
         © ООО «Альфа Фьюче Пипл», 2023
       </Typography.Text>
     </footer>

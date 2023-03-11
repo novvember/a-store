@@ -1,11 +1,25 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import storeReducer from './storeSlice';
+import createReducer from './createSlice';
+import cartReducer from './cartSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    store: storeReducer,
+    create: createReducer,
+    cart: cartReducer,
+  },
 });
 
-export type ApplicationState = ReturnType<typeof store.getState>;
+export type AppState = ReturnType<typeof store.getState>;
 
 export const useAppDispatch = () => useDispatch<typeof store.dispatch>();
-export const useAppSelector: TypedUseSelectorHook<ApplicationState> = useSelector;
+export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;
+
+store.subscribe(() => {
+  window.localStorage.setItem(
+    'cart',
+    JSON.stringify(store.getState().cart.items),
+  );
+});

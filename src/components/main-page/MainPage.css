@@ -1,3 +1,15 @@
+.main {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-inline: calc(-1 * var(--page-padding));
+}
+
+@media (min-width: 768px) {
+  .main {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .main__link {
   position: relative;
   display: block;
@@ -5,7 +17,7 @@
   padding: var(--gap-s);
   background-position: center;
   background-size: 100%;
-  transition: background-size ease-in-out 0.4s;
+  transition: background-size ease-out 0.2s;
 }
 
 .main__link_type_create {

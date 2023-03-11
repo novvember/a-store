@@ -1,15 +1,11 @@
-import {
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import Store from './Store';
+import StorePage from './StorePage';
 
 describe('Store page', () => {
   it('should render properly', async () => {
-    render(<Store />, { wrapper: MemoryRouter });
+    render(<StorePage />, { wrapper: MemoryRouter });
 
     const title = await screen.findByTestId('section-title');
     const subtitle = await screen.findByTestId('section-subtitle');

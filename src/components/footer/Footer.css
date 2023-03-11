@@ -1,3 +1,4 @@
 .footer {
   padding-block: var(--gap-xl);
+  padding-inline: var(--page-padding);
 }

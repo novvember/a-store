@@ -1,26 +1,26 @@
-import { useEffect, useState } from 'react';
-import { Group } from '../../types/group';
-import data from '../../mocks/groups.json';
+import { useEffect } from 'react';
 import CardGroup from '../card-group/CardGroup';
 import SectionHeader from '../section-header/SectionHeader';
 import Loader from '../loader/Loader';
+import { useAppDispatch, useAppSelector } from '../../store';
+import {
+  fetchCreateItems,
+  selectAllCreateGroups,
+  selectCreateStatus,
+} from '../../store/createSlice';
+import ErrorMessage from '../error-message/ErrorMessage';
+import { Space } from '@alfalab/core-components/space';
 
 function CreatePage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [groups, setGroups] = useState<Group[]>([]);
-
-  const fetchGroups = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      const groups = data.groups;
-      setGroups(groups);
-      setIsLoading(false);
-    }, 1000);
-  };
+  const dispatch = useAppDispatch();
+  const groups = useAppSelector(selectAllCreateGroups);
+  const status = useAppSelector(selectCreateStatus);
 
   useEffect(() => {
-    fetchGroups();
-  }, []);
+    if (status === 'idle') {
+      dispatch(fetchCreateItems());
+    }
+  }, [dispatch, status]);
 
   return (
     <>
@@ -30,11 +30,17 @@ function CreatePage() {
         type="primary"
       />
 
-      {isLoading && <Loader />}
+      {status === 'loading' && <Loader />}
 
-      {groups.map((group) => (
-        <CardGroup group={group} key={group.id} />
-      ))}
+      {status === 'failed' && <ErrorMessage />}
+
+      {status === 'succeeded' && (
+        <Space direction="vertical" size="l">
+          {groups.map((group) => (
+            <CardGroup group={group} key={group.id} />
+          ))}
+        </Space>
+      )}
     </>
   );
 }

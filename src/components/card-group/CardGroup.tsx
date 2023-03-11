@@ -1,5 +1,4 @@
 import { Space } from '@alfalab/core-components/space';
-import { Link } from 'react-router-dom';
 import { Group } from '../../types/group';
 import Card from '../card/Card';
 import SectionHeader from '../section-header/SectionHeader';
@@ -18,9 +17,7 @@ function CardGroup({ group }: CardGroupPros) {
       />
       <Space direction="horizontal" wrap align="start" size="l">
         {group.products.map((card) => (
-          <Link to="/" key={card.id}>
-            <Card product={card} />
-          </Link>
+          <Card product={card} key={card.id} />
         ))}
       </Space>
     </section>

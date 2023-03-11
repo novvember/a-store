@@ -1,13 +1,16 @@
-export type Product = {
+export type PreviewProduct = {
   id: number;
   preview: string;
-  images?: string[];
   title: string;
-  subtitle?: string;
   price: number;
-  description?: string;
+  availability: boolean;
+};
+
+export type FullProduct = {
   colors?: string[];
   sizes?: string[];
   stickerNumbers?: number[];
-  availability: boolean;
-};
+  images: string[];
+  subtitle: string;
+  description: string;
+} & PreviewProduct;

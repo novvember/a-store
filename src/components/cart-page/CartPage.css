@@ -1,0 +1,13 @@
+.cart-page {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap-3xl);
+  grid-template-areas: 'list' 'form';
+}
+
+@media (min-width: 768px) {
+  .cart-page {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'form list';
+  }
+}

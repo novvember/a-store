@@ -1,5 +1,17 @@
 .card {
-  width: 300px;
+  width: 100%;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .card {
+    width: 300px;
+  }
+}
+
+.card_disabled {
+  pointer-events: none;
+  opacity: 0.3;
 }
 
 .card__preview {
@@ -8,6 +20,7 @@
   object-fit: cover;
   background-color: #eee;
   transition: transform ease-in-out 0.2s;
+  display: block;
 }
 
 .card:hover .card__preview {
