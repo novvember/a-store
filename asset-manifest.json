@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0b360f22.css",
+    "main.js": "/static/js/main.bcd3e961.js",
+    "static/media/store.jpeg": "/static/media/store.a87b4ffc8d1a066f1a5c.jpeg",
+    "static/media/create.jpeg": "/static/media/create.6935adcea289fc465b15.jpeg",
+    "static/media/StyreneAWeb-Medium.woff": "/static/media/StyreneAWeb-Medium.ac0d6ee311aa17f456e1.woff",
+    "static/media/StyreneAWeb-Bold.woff": "/static/media/StyreneAWeb-Bold.b146337bef5e486c9ca5.woff",
+    "static/media/StyreneAWeb-Regular.woff": "/static/media/StyreneAWeb-Regular.8bc4b3b7d00bc24430f3.woff",
+    "static/media/StyreneAWeb-Bold.woff2": "/static/media/StyreneAWeb-Bold.34f6c67bfc9140b996aa.woff2",
+    "static/media/StyreneAWeb-Medium.woff2": "/static/media/StyreneAWeb-Medium.9578bf687a67a9a20693.woff2",
+    "static/media/StyreneAWeb-Regular.woff2": "/static/media/StyreneAWeb-Regular.b7ed4080513047a215e5.woff2",
+    "index.html": "/index.html",
+    "main.0b360f22.css.map": "/static/css/main.0b360f22.css.map",
+    "main.bcd3e961.js.map": "/static/js/main.bcd3e961.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0b360f22.css",
+    "static/js/main.bcd3e961.js"
+  ]
+}
